@@ -1,15 +1,15 @@
 ---
 layout: example.11ty.cjs
-title: <my-element> ⌲ Examples ⌲ Name Property
+title: <dodex-widget> ⌲ Examples ⌲ Name Property
 tags: example
 name: Name Property
 description: Setting the name property
 ---
 
-<my-element name="Earth"></my-element>
+<dodex-widget name="Earth"></dodex-widget>
 
 <h3>HTML</h3>
 
 ```html
-<my-element name="Earth"></my-element>
+<dodex-widget name="Earth"></dodex-widget>
 ```

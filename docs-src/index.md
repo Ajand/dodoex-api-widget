@@ -1,27 +1,27 @@
 ---
 layout: page.11ty.cjs
-title: <my-element> ⌲ Home
+title: <dodex-widget> ⌲ Home
 ---
 
-# &lt;my-element>
+# &lt;dodex-widget>
 
-`<my-element>` is an awesome element. It's a great introduction to building web components with LitElement, with nice documentation site as well.
+`<dodex-widget>` is an awesome element. It's a great introduction to building web components with LitElement, with nice documentation site as well.
 
 ## As easy as HTML
 
 <section class="columns">
   <div>
 
-`<my-element>` is just an HTML element. You can it anywhere you can use HTML!
+`<dodex-widget>` is just an HTML element. You can it anywhere you can use HTML!
 
 ```html
-<my-element></my-element>
+<dodex-widget></dodex-widget>
 ```
 
   </div>
   <div>
 
-<my-element></my-element>
+<dodex-widget></dodex-widget>
 
   </div>
 </section>
@@ -31,16 +31,16 @@ title: <my-element> ⌲ Home
 <section class="columns">
   <div>
 
-`<my-element>` can be configured with attributed in plain HTML.
+`<dodex-widget>` can be configured with attributed in plain HTML.
 
 ```html
-<my-element name="HTML"></my-element>
+<dodex-widget name="HTML"></dodex-widget>
 ```
 
   </div>
   <div>
 
-<my-element name="HTML"></my-element>
+<dodex-widget name="HTML"></dodex-widget>
 
   </div>
 </section>
@@ -50,7 +50,7 @@ title: <my-element> ⌲ Home
 <section class="columns">
   <div>
 
-`<my-element>` can be used with declarative rendering libraries like Angular, React, Vue, and lit-html
+`<dodex-widget>` can be used with declarative rendering libraries like Angular, React, Vue, and lit-html
 
 ```js
 import {html, render} from 'lit-html';
@@ -59,8 +59,8 @@ const name = 'lit-html';
 
 render(
   html`
-    <h2>This is a &lt;my-element&gt;</h2>
-    <my-element .name=${name}></my-element>
+    <h2>This is a &lt;dodex-widget&gt;</h2>
+    <dodex-widget .name=${name}></dodex-widget>
   `,
   document.body
 );
@@ -69,8 +69,8 @@ render(
   </div>
   <div>
 
-<h2>This is a &lt;my-element&gt;</h2>
-<my-element name="lit-html"></my-element>
+<h2>This is a &lt;dodex-widget&gt;</h2>
+<dodex-widget name="lit-html"></dodex-widget>
 
   </div>
 </section>

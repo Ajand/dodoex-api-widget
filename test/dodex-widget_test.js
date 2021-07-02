@@ -4,19 +4,19 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import {MyElement} from '../my-element.js';
+import {Widget} from '../dodex-widget.js';
 import {fixture, html} from '@open-wc/testing';
 
 const assert = chai.assert;
 
-suite('my-element', () => {
+suite('dodex-widget', () => {
   test('is defined', () => {
-    const el = document.createElement('my-element');
-    assert.instanceOf(el, MyElement);
+    const el = document.createElement('dodex-widget');
+    assert.instanceOf(el, Widget);
   });
 
   test('renders with default values', async () => {
-    const el = await fixture(html`<my-element></my-element>`);
+    const el = await fixture(html`<dodex-widget></dodex-widget>`);
     assert.shadowDom.equal(
       el,
       `
@@ -28,7 +28,7 @@ suite('my-element', () => {
   });
 
   test('renders with a set name', async () => {
-    const el = await fixture(html`<my-element name="Test"></my-element>`);
+    const el = await fixture(html`<dodex-widget name="Test"></dodex-widget>`);
     assert.shadowDom.equal(
       el,
       `
@@ -40,7 +40,7 @@ suite('my-element', () => {
   });
 
   test('handles a click', async () => {
-    const el = await fixture(html`<my-element></my-element>`);
+    const el = await fixture(html`<dodex-widget></dodex-widget>`);
     const button = el.shadowRoot.querySelector('button');
     button.click();
     await el.updateComplete;
@@ -55,7 +55,7 @@ suite('my-element', () => {
   });
 
   test('styling applied', async () => {
-    const el = await fixture(html`<my-element></my-element>`);
+    const el = await fixture(html`<dodex-widget></dodex-widget>`);
     await el.updateComplete;
     assert.equal(getComputedStyle(el).paddingTop, '16px');
   });

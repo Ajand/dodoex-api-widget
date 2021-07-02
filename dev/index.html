@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>&lt;my-element> Demo</title>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
-    <script type="module" src="../my-element.js"></script>
-    <style>
-      p {
-        border: solid 1px blue;
-        padding: 8px;
-      }
-    </style>
-  </head>
-  <body>
-    <my-element>
+
+<head>
+  <meta charset="utf-8" />
+  <title>&lt;dodex-widget> Demo</title>
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../node_modules/lit/polyfill-support.js"></script>
+  <script type="module" src="../dodex-widget.js"></script>
+  <style>
+    p {
+      border: solid 1px blue;
+      padding: 8px;
+    }
+
+    html {
+      --dodoBackground: #1A1A1B;
+      --dodoSecondaryBackground: #373739;
+      --dodoPrimary: #FFE804;
+      --dodoPrimaryDark: rgb(64, 62, 37);
+      --dodoText: #f4f4f4;
+      --dodoFontFamily: "Poppins","Inter",PingFangSC-Regular,"Microsoft YaHei",sans-serif;
+      --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+    }
+
+    #widget-container {
+      width: 400px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="widget-container">
+    <dodoex-widget count="20" color="red">
       <p>This is child content</p>
-    </my-element>
-  </body>
+    </dodoex-widget>
+
+  </div>
+</body>
+
 </html>
