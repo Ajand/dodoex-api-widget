@@ -40,6 +40,9 @@ const formatRatio = (ratio) => {
   return ratio;
 };
 
+const toHex = (number) => '0x' + number.toString(16);
+const toInt = (hex) => parseInt(hex.replace('0x', ''), 16);
+
 /**
  * An example element.
  *
@@ -63,7 +66,6 @@ export class Widget extends LitElement {
         font-family: var(--dodoFontFamily) !important;
         position: relative;
       }
-
 
       .button {
         font-weight: 500;
@@ -635,13 +637,21 @@ export class Widget extends LitElement {
         color: var(--dodoText);
       }
 
+      .select-wallet-button:disabled {
+        cursor: default;
+        outline: 0px;
+        background-color: var(--dodoHelperBackground);
+        color: var(--dodoHelperBackground);
+
+        cursor: not-allowed;
+      }
+
       .select-wallet-button svg {
         width: 50%;
         height: 50%;
         overflow: hidden;
         vertical-align: middle;
       }
-
 
       @media screen and (max-width: 767px) {
         .modal-container {
@@ -687,6 +697,7 @@ export class Widget extends LitElement {
       selectedNetwork: {
         type: String,
       },
+      connectionStatus: {type: String},
     };
   }
 
@@ -698,6 +709,7 @@ export class Widget extends LitElement {
     this.openConnectModal = true;
     this.acceptTermsAndService = true;
     this.selectedNetwork = 'ethereum';
+    this.connectionStatus = 'disconnect';
   }
 
   refreshButtonIcon() {
@@ -1025,7 +1037,6 @@ export class Widget extends LitElement {
   selectNetworkButton({ethereum, label, image, networkName}) {
     const selected = networkName === this.selectedNetwork ? true : false;
 
-    console.log(selected, networkName, this.selectedNetwork);
     return html`
       <button
         @click=${this._selectNetwork(networkName)}
@@ -1250,9 +1261,131 @@ export class Widget extends LitElement {
     `;
   }
 
-  selectWalletButton({label, icon}) {
+  _connectMetaMask() {
+    console.log('connecting to metamask', this.selectedNetwork);
+   // this.connectionStatus = 'pending';
+    switch (this.selectedNetwork) {
+      case 'binance':
+        // TODO connect to binance
+        ethereum
+          .request({
+            method: 'wallet_switchEthereumChain',
+            params: [{chainId: toHex(56)}],
+          })
+          .then(() => {
+            console.log('switched to binance');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        /* try {
+          await ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '56' }],
+          });
+        } catch (switchError) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (error.code === 4902) {
+            try {
+              await ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{ 
+                  chainId: '56',
+                  networkName: 'Smart Chain',
+                  rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                  nativeCurrency: {
+                    name: 'Binance Coin',
+                    symbol: 'BNB', // 2-6 characters long
+                    decimals: 18,
+                  },
+                  blockExplorerUrls:['https://bscscan.com'],
+              }],
+              });
+            } catch (addError) {
+              // handle "add" error
+            }
+          }
+          // handle other "switch" errors
+        }*/
+
+        break;
+      case 'polygon':
+        // TODO connect to polygon
+        break;
+      case 'heco':
+        // TODO connecto to polygon
+        ethereum
+          .request({
+            method: 'wallet_switchEthereumChain',
+            params: [{chainId: toHex(128)}],
+          })
+          .then(() => {
+            console.log('switched to heco');
+          })
+          .catch((err) => {
+            if (err.code == 4902) {
+              return ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: toHex(128),
+                    chainName: 'Heco-Mainnet',
+                    rpcUrls: ['https://http-mainnet-node.huobichain.com'],
+                    nativeCurrency: {
+                      name: 'HECO',
+                      symbol: 'HT', // 2-6 characters long
+                      decimals: 18
+                    },
+                    blockExplorerUrls: ['https://hecoinfo.com'],
+                  },
+                ],
+              });
+            } else {
+              console.log(err);
+            }
+          })
+          .then(() => {
+            console.log('network added');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        break;
+      default:
+        // TODO connect to ethereum
+        return ethereum
+          .request({
+            method: 'wallet_requestPermissions',
+            params: [{eth_accounts: {}}],
+          })
+          .then((permissions) => {
+            const accountsPermission = permissions.find(
+              (permission) => permission.parentCapability === 'eth_accounts'
+            );
+            if (accountsPermission) {
+              console.log('eth_accounts permission successfully requested!');
+              this.connectionStatus = 'disconnect';
+              this.update();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.connectionStatus = 'disconnect';
+            this.update();
+          });
+        break;
+    }
+  }
+
+  selectWalletButton({label, icon, click}) {
     return html`<div class="select-wallet-button-wrapper">
-      <button type="button" class="select-wallet-button">
+      <button
+        ?disabled=${!this.acceptTermsAndService ||
+        this.connectionStatus !== 'disconnect'}
+        type="button"
+        class="select-wallet-button"
+        @click=${click}
+      >
         ${icon}</button
       >${label}
     </div>`;
@@ -1309,15 +1442,23 @@ export class Widget extends LitElement {
           Select Wallet
         </div>
         <div class="connect-modal-select-wallet-container">
-          ${this.selectWalletButton({
-            label: 'MetaMask',
-            icon: this.metamaskIcon(),
-          })}
+          ${typeof window.ethereum !== 'undefined'
+            ? this.selectWalletButton({
+                label: 'MetaMask',
+                icon: this.metamaskIcon(),
+                click: this._connectMetaMask,
+              })
+            : null}
           ${this.selectWalletButton({
             label: 'WalletConnect',
             icon: this.walletConnectIcon(),
           })}
-          ${this.selectWalletButton({label: 'Portis', icon: this.portisIcon()})}
+          ${this.selectedNetwork === 'ethereum'
+            ? this.selectWalletButton({
+                label: 'Portis',
+                icon: this.portisIcon(),
+              })
+            : null}
         </div>
       </div>
     `;
