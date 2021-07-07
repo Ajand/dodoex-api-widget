@@ -4,12 +4,12 @@
 
 ### It has so many details I need a bit of time to document them.
 
-(https://i.ibb.co/BVq6BH3/Screenshot-2021-07-08-03-58-19.png)
+![Demo1](https://i.ibb.co/BVq6BH3/Screenshot-2021-07-08-03-58-19.png)
 
-(https://i.ibb.co/rHjx2p0/Screenshot-2021-07-08-03-55-14.png)
+![Demo2](https://i.ibb.co/rHjx2p0/Screenshot-2021-07-08-03-55-14.png)
 
-(https://i.ibb.co/K53n2sf/Screenshot-2021-07-08-03-54-38.png)
+![DemoDandeBeDande](https://i.ibb.co/K53n2sf/Screenshot-2021-07-08-03-54-38.png)
 
-(https://i.ibb.co/c2HqRFK/Screenshot-2021-07-08-03-52-59.png)
+![DemoCheraNemikhande](https://i.ibb.co/c2HqRFK/Screenshot-2021-07-08-03-52-59.png)
 
-(https://i.ibb.co/XbzJ4R6/Screenshot-2021-07-08-03-52-10.png)
+![DemoBoshghabParande](https://i.ibb.co/XbzJ4R6/Screenshot-2021-07-08-03-52-10.png)
