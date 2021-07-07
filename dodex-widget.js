@@ -43,12 +43,46 @@ const formatRatio = (ratio) => {
 const toHex = (number) => '0x' + number.toString(16);
 const toInt = (hex) => parseInt(hex.replace('0x', ''), 16);
 
+const chainName = (chainId) => {
+  switch (chainId) {
+    case 1:
+      return 'Ethereum';
+    case 42:
+      return 'Kovan';
+    case 128:
+      return 'Heco';
+    case 56:
+      return 'Binance';
+    default:
+      return null;
+  }
+};
+
+const networkName = (chainId) => {
+  switch (chainId) {
+    case 1:
+      return 'ethereum';
+    case 42:
+      return 'kovan';
+    case 128:
+      return 'heco';
+    case 56:
+      return 'binance';
+    default:
+      return null;
+  }
+};
+
+const isReallyConnected = (chainId, accountAddress) =>
+  chainName(chainId) && accountAddress;
+
 /**
  * An example element.
  *
  * @slot - This element has a slot
  * @csspart button - The button
  */
+
 export class Widget extends LitElement {
   static get styles() {
     return css`
@@ -58,13 +92,23 @@ export class Widget extends LitElement {
 
       :host {
         display: block;
-        border: solid 1px gray;
         padding: 20px;
         max-width: 800px;
         background-color: var(--dodoBackground);
         color: var(--dodoText);
         font-family: var(--dodoFontFamily) !important;
         position: relative;
+        height: 100%
+      }
+
+      .loading-image {
+        width: 50%;
+      }
+
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .button {
@@ -128,8 +172,13 @@ export class Widget extends LitElement {
 
       .top-bar {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         margin-bottom: 20px;
+      }
+
+      .top-bar-buttons {
+        display: flex;
+        justify-content: flex-end;
       }
 
       .field {
@@ -189,6 +238,10 @@ export class Widget extends LitElement {
         width: 24px;
         height: 24px;
         margin-right: 8px;
+      }
+
+      .field-icon-image {
+        width: 100%;
       }
 
       .field-currnecy-label {
@@ -653,6 +706,237 @@ export class Widget extends LitElement {
         vertical-align: middle;
       }
 
+      .field-currency-expand {
+        display: flex;
+        padding: 6px;
+      }
+
+      .secondary-header-container {
+        color: var(--dodoText);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 27px;
+        margin-bottom: 27px;
+        text-align: center;
+        position: relative;
+      }
+
+      .secondary-header-back-button {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        left: 0px;
+        cursor: pointer;
+        fill: var(--dodoText);
+        width: 16px;
+      }
+
+      .search-input-container {
+        background: var(--dodoSecondaryBackground);
+        border-radius: 10px;
+        border-style: solid;
+        border-color: transparent;
+        border-width: 1px;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0px 10px;
+      }
+
+      .search-input {
+        border: none;
+        background: transparent;
+        padding: 0px;
+        outline: none;
+        height: 58px;
+        line-height: 58px;
+        font-weight: 400;
+        width: 0px;
+        flex: 1 1 0%;
+        min-width: 0px;
+        color: white;
+        font-size: 20px;
+        margin-right: 10px;
+        height: 46px;
+        font-size: 14px;
+      }
+
+      .search-input-icon {
+        fill: var(--dodoSecondaryText);
+        width: 16px;
+        height: 16px;
+      }
+
+      .currency-item-container {
+        position: relative;
+        display: flex;
+        border-radius: 10px;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 2px 12px;
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+
+      .currency-item-container[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .currency-item-container:hover {
+        background-color: var(--dodoHelperLightBackground);
+      }
+
+      .currency-item-image-container {
+        position: relative;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        min-width: 32px;
+        z-index: 2;
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+      }
+
+      .currency-item-image {
+        vertical-align: middle;
+        border-style: none;
+        position: absolute;
+        inset: 0px;
+        border-radius: 50%;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+
+      .currency-item-right-wrapper {
+        display: flex;
+        flex: 1 1 0%;
+        padding: 0px;
+        color: rgb(255, 255, 255);
+        align-items: flex-start;
+        position: relative;
+        z-index: 2;
+        align-items: center;
+      }
+
+      .currency-item-right-left {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        align-items: center;
+      }
+
+      .currency-item-symbol {
+        font-size: 16px;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        font-weight: 500;
+      }
+
+      .currency-item-value {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .currency-item-right-right {
+        display: flex;
+        flex: 1 1 0%;
+        margin-left: 8px;
+        box-sizing: border-box;
+        text-align: right;
+        align-items: center;
+      }
+
+      .currency-item-name {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+
+        font-size: 14px;
+        color: var(--dodoSecondaryText);
+      }
+
+      .currency-info-icon {
+        display: inline-block;
+        padding: 13px 0px 10px 12px;
+      }
+
+      .currency-list-container {
+        margin-top: 1em;
+        overflow-y: auto;
+        max-height: 400px;
+        overflow-x: hidden;
+        padding-right: 8px;
+      }
+
+      .currency-list-container::-webkit-scrollbar {
+        width: 2px;
+      }
+
+      .currency-list-container::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .currency-list-container::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+      }
+
+      .connected-network-container {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        color: var(--dodoText);
+        font-size: 14px;
+        font-weight: 400;
+        height: 36px;
+        background-color: var(--dodoSecondaryBackground);
+        border-top-left-radius: 18px;
+        border-bottom-left-radius: 18px;
+        padding-right: 23px;
+        padding-left: 24px;
+        margin-right: -17px;
+      }
+
+      .connected-address {
+        background: rgb(38, 39, 41);
+        color: rgb(255, 255, 255);
+        padding: 5px 12px;
+        font-size: 14px;
+        border-radius: 20px;
+        white-space: nowrap;
+        border: 1px solid var(--dodoPrimary);
+        color: var(--dodoPrimary);
+
+        height: 36px;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        padding: 0px 16px;
+        text-align: center;
+      }
+
+      .connected-wallet {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        left: 0;
+      }
+
       @media screen and (max-width: 767px) {
         .modal-container {
           width: 91vw !important;
@@ -668,6 +952,11 @@ export class Widget extends LitElement {
 
         .select-wallet-button-wrapper {
           width: 33%;
+        }
+
+        .search-input {
+          height: 58px;
+          line-height: 58px;
         }
       }
     `;
@@ -698,7 +987,57 @@ export class Widget extends LitElement {
         type: String,
       },
       connectionStatus: {type: String},
+      initialLoading: {
+        type: Boolean,
+      },
+      tokens: {type: Array},
+      pay: {type: Object},
+      receive: {type: Object},
+      currentScreen: {type: String},
+      showAmount: {type: Number},
+      defaultpay: {type: String, attribute: true},
+      defaultreceive: {type: String, attribute: true},
+      price: {type: Number},
+      payAmount: {type: Number},
+      searchString: {type: String},
+      chainId: {type: Number},
+      selectedAccount: {type: String},
+      route: {type: Object},
+      ethrpc: {type: String, attribute: true},
+      kovanrpc: {type: String, attribute: true},
+      polygonrpc: {type: String, attribute: true},
+      bscrpc: {type: String, attribute: true},
+      hecorpc: {type: String, attribute: true},
     };
+  }
+
+  metamaskHandler() {
+    if (window.ethereum) {
+      if (ethereum.isConnected()) {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+      }
+
+      ethereum.on('connect', (info) => {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+      });
+      ethereum.on('accountsChanged', (info) => {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+        window.location.reload();
+      });
+      ethereum.on('chainChanged', (info) => {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+        window.location.reload();
+      });
+      ethereum.on('disconnect', (info) => {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+        window.location.reload();
+      });
+    }
   }
 
   constructor() {
@@ -706,10 +1045,146 @@ export class Widget extends LitElement {
     this.name = 'Widget';
     this.count = 0;
     this.inverse = false;
-    this.openConnectModal = true;
+    this.openConnectModal = false;
     this.acceptTermsAndService = true;
     this.selectedNetwork = 'ethereum';
     this.connectionStatus = 'disconnect';
+    this.initialLoading = true;
+    this.currentScreen = 'main';
+    this.showAmount = 10;
+    this.price = 2000;
+    this.payAmount = 0;
+
+    if (!Web3 && !window.Web3) {
+      throw new Error(
+        'no Web3 found! Must include Web3 or window.Web3 as a global variable.'
+      );
+    }
+
+    this.addEventListener('pair-changed', () => {
+      this._findCurrentPrice();
+    });
+
+    setInterval(() => {
+      if (this.pay && this.receive) {
+        console.log('automated refresh', this.refreshTime);
+        this._findCurrentPrice(true);
+      }
+    }, 30 * 1000);
+  }
+
+  _findCurrentPrice(automated) {
+    if (!this.pay || !this.receive) return;
+    if (!automated) {
+      this.price = 0;
+    }
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      `https://priceapi.dodoex.io/api/v1/klines?symbol=${this.pay.symbol}/${
+        this.receive.symbol
+      }&interval=15m&limit=96&addresses=${this.pay.address}/${
+        this.receive.address
+      }&network=${networkName(this.chainId)} `,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result))
+      .then((res) => {
+        return res.data;
+      })
+      .then((resArray) => {
+        return resArray[resArray.length - 1];
+      })
+      .then((lastItem) => (this.price = lastItem[1]))
+      .catch((error) => console.log('error', error));
+  }
+
+  _findRoute() {
+    this.route = undefined;
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      `https://dodo-route.dodoex.io/dodoapi/getdodoroute?fromTokenAddress=${
+        this.pay.address
+      }&fromTokenDecimals=${this.pay.decimals}&toTokenAddress=${
+        this.receive.address
+      }&toTokenDecimals=${this.receive.decimals}&fromAmount=${
+        this.payAmount ** this.pay.decimals
+      }&slippage=3&userAddr=${this.selectedAccount}&chainId=${1}&rpc=${
+        this.ethrpc
+      } `,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result))
+      .then((res) => {
+        if (res.status == 200) return res.data;
+        throw new Error(res.data);
+      })
+      .then((route) => (this.route = route))
+      .catch((error) => console.log('error', error));
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.metamaskHandler();
+
+    const defaultPay = this.defaultpay ? this.defaultpay : 'ETH';
+    const defaultRecieve = this.defaultreceive ? this.defaultreceive : 'USDC';
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      `https://cdn-static.dodoex.io/erc-20-s?_limit=1000&chains.name=${
+        this.chainId == 1 ? 'mainnet' : networkName(this.chainId)
+      }`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result))
+      .then((tokens) => {
+        function compare(a, b) {
+          if (a.symbol < b.symbol) {
+            return -1;
+          }
+          if (a.symbol > b.symbol) {
+            return 1;
+          }
+          return 0;
+        }
+
+        const sortedTokens = tokens.sort(compare);
+
+        this.tokens = sortedTokens;
+        this.initialLoading = false;
+        this.pay = tokens.find((token) => token.symbol === defaultPay)
+          ? tokens.find((token) => token.symbol === defaultPay)
+          : tokens[0];
+        this.receive = tokens.find((token) => token.symbol === defaultRecieve)
+          ? tokens.find((token) => token.symbol === defaultRecieve)
+          : tokens[1];
+        this.dispatchEvent(new Event('pair-changed'));
+      })
+      .catch((error) => console.log('error', error));
+  }
+
+  _setCurrentScreen(screen) {
+    return () => {
+      this.currentScreen = screen;
+      this.searchString = '';
+    };
   }
 
   refreshButtonIcon() {
@@ -756,6 +1231,13 @@ export class Widget extends LitElement {
     </svg>`;
   }
 
+  _swapPayReceive() {
+    let temp = this.pay;
+    this.pay = this.receive;
+    this.receive = temp;
+    this.dispatchEvent(new Event('pair-changed'));
+  }
+
   swapButtonIcon() {
     return html`
       <svg
@@ -764,6 +1246,7 @@ export class Widget extends LitElement {
         height="26"
         viewBox="0 0 26 26"
         class="swap-button-icon"
+        @click=${this._swapPayReceive}
       >
         <g id="icon-token转换" transform="translate(0.5 0.5)">
           <path
@@ -805,26 +1288,76 @@ export class Widget extends LitElement {
     </svg>`;
   }
 
-  iconButton({icon}) {
-    return html` <button class="icon-button">${icon}</button> `;
+  iconButton({icon, click}) {
+    return html` <button @click=${click} class="icon-button">${icon}</button> `;
   }
 
   button({label, click, disabled = false}) {
-    return html`<button
-      @click="${click}"
-      ${disabled && 'disabled'}
-      class="button"
-    >
+    console.log(disabled, this.route);
+    return html`<button @click=${click} ?disabled=${disabled} class="button">
       ${label}
     </button>`;
   }
 
   header() {
     return html`<div class="top-bar">
-      ${this.iconButton({icon: this.refreshButtonIcon()})}
-      ${this.iconButton({icon: this.shareButtonIcon()})}
-      ${this.iconButton({icon: this.configButtonIcon()})}
+      <div class="connected-wallet">
+        ${isReallyConnected(this.chainId, this.selectedAccount)
+          ? html`
+            <div class="connected-network-container">
+              ${chainName(this.chainId)} 
+            </div>
+            <span class="connected-address">
+             ${this.selectedAccount.slice(0, 5)}...${this.selectedAccount.slice(
+              this.selectedAccount.length - 5,
+              this.selectedAccount.length
+            )}
+            </span>
+          </div>`
+          : null}
+      </div>
+
+      <div class="top-bar-buttons">
+        ${this.iconButton({
+          icon: this.refreshButtonIcon(),
+          click: () => this._findCurrentPrice(),
+        })}
+        ${this.iconButton({icon: this.shareButtonIcon()})}
+        ${this.iconButton({icon: this.configButtonIcon()})}
+      </div>
     </div>`;
+  }
+
+  expandIcon() {
+    return html`
+      <svg
+        width="14px"
+        height="14px"
+        viewBox="0 0 14 14"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        class="StretchedInputArrowIcon__Svg-dodo__sc-1952kb8-0 hxIIuy"
+      >
+        <g
+          id="展开箭头"
+          stroke="none"
+          stroke-width="1"
+          fill="none"
+          fill-rule="evenodd"
+        >
+          <g
+            transform="translate(3.000000, 4.000000)"
+            fill="currentColor"
+            id="三角形"
+          >
+            <path
+              d="M4.41602515,0.624037721 L7.4817666,5.2226499 C7.63494283,5.45241425 7.5728559,5.76284892 7.34309155,5.91602515 C7.26095779,5.97078099 7.16445395,6 7.06574145,6 L0.934258546,6 C0.658116171,6 0.434258546,5.77614237 0.434258546,5.5 C0.434258546,5.40128751 0.46347756,5.30478366 0.518233399,5.2226499 L3.58397485,0.624037721 C3.73715108,0.394273376 4.04758575,0.332186442 4.2773501,0.485362672 C4.33227624,0.521980101 4.37940772,0.569111577 4.41602515,0.624037721 Z"
+              transform="translate(4.000000, 3.000000) scale(1, -1) translate(-4.000000, -3.000000) "
+            ></path>
+          </g>
+        </g>
+      </svg>
+    `;
   }
 
   amountField({label, currency, currencyIcon, secondary}) {
@@ -836,12 +1369,47 @@ export class Widget extends LitElement {
         </div>
         <div class="field-container">
           <div class="field-currency-container">
-            <div class="field-currency-info">
-              <div class="field-currency-icon">${currencyIcon}</div>
+            <div
+              @click=${this._setCurrentScreen(
+                label === 'Pay' ? 'selectPay' : 'selectReceive'
+              )}
+              class="field-currency-info"
+            >
+              <div class="field-currency-icon">
+                <img
+                  class="field-icon-image"
+                  src="${currencyIcon}"
+                  onerror="this.onerror=null;this.src='https://cdn-media.dodoex.io/erc20/https_app_dodoex_io_static_media_yellow_Duck_1b3a058e_7dfe42fa9b.svg';"
+                />
+              </div>
               <div class="field-currency-label">${currency}</div>
+              <div class="field-currency-expand">${this.expandIcon()}</div>
             </div>
           </div>
-          <input class="field-input" placeholder="0" />
+          <input
+            @input=${(e) => {
+              if (label == 'Pay') {
+                this.payAmount = e.target.value;
+                console.log(this.route);
+                if (
+                  e.target.value != '' &&
+                  isReallyConnected(this.chainId, this.selectedAccount)
+                ) {
+                  this._findRoute();
+                }
+              }
+            }}
+            value=${label === 'Pay'
+              ? this.payAmount
+                ? this.payAmount
+                : ''
+              : this.price && this.payAmount
+              ? formatRatio(this.payAmount * this.price)
+              : '0'}
+            ?disabled=${label === 'Pay' ? false : true}
+            class="field-input"
+            placeholder="0"
+          />
         </div>
       </div>
     `;
@@ -863,19 +1431,27 @@ export class Widget extends LitElement {
   }
 
   rate({base, quote, ratio}) {
-    return this.inverse
-      ? html`
-          1 ${quote} = ${formatRatio(1 / ratio)} ${base}
-          <div class="inverse-button-container" @click="${this._inverseRatio}">
-            ${this.inverseButtonIcon()}
-          </div>
-        `
-      : html`
-          1 ${base} = ${formatRatio(ratio)} ${quote}
-          <div class="inverse-button-container" @click="${this._inverseRatio}">
-            ${this.inverseButtonIcon()}
-          </div>
-        `;
+    return ratio != '0'
+      ? this.inverse
+        ? html`
+            1 ${quote} = ${formatRatio(1 / ratio)} ${base}
+            <div
+              class="inverse-button-container"
+              @click="${this._inverseRatio}"
+            >
+              ${this.inverseButtonIcon()}
+            </div>
+          `
+        : html`
+            1 ${base} = ${formatRatio(ratio)} ${quote}
+            <div
+              class="inverse-button-container"
+              @click="${this._inverseRatio}"
+            >
+              ${this.inverseButtonIcon()}
+            </div>
+          `
+      : html`<div>Loading ...</div>`;
   }
 
   helperMessage() {
@@ -883,14 +1459,24 @@ export class Widget extends LitElement {
   }
 
   mainScreen() {
+
+    console.log(this.pay, this.receive)
+
     return html`
       <div></div>
       <div>
         ${this.amountField({
           label: 'Pay',
-          currency: 'ETH',
-          currencyIcon: this.refreshButtonIcon(),
-          secondary: this.available({base: true}),
+          currency: this.pay.symbol,
+          currencyIcon: this.pay.logo
+            ? this.pay.logo.url
+            : 'https://app.dodoex.io/assets/ethereum/' +
+              this.pay.address +
+              '/logo.png',
+          secondary:
+            this.connectionStatus === 'disconnect'
+              ? ''
+              : this.available({base: true}),
         })}
       </div>
       <div class="swap-fields-container">
@@ -899,21 +1485,41 @@ export class Widget extends LitElement {
       <div>
         ${this.amountField({
           label: 'Recieve (Estimated)',
-          currency: 'USDC',
-          currencyIcon: this.refreshButtonIcon(),
-          secondary: this.available({}),
+          currency: this.receive.symbol,
+          currencyIcon: this.receive.logo
+            ? this.receive.logo.url
+            : 'https://app.dodoex.io/assets/ethereum/' +
+              this.receive.address +
+              '/logo.png',
+          secondary:
+            this.connectionStatus === 'disconnect'
+              ? ''
+              : this.available({base: true}),
         })}
       </div>
       <div class="ratio-container">
-        ${this.rate({base: 'ETH', quote: 'USDC', ratio: '2034'})}
-      </div>
-      <div class="helper-message-container">${this.helperMessage()}</div>
-      <div>
-        ${this.button({
-          label: 'Connect Wallet',
-          click: this._handleConnectModal,
-          disabled: false,
+        ${this.rate({
+          base: this.pay.symbol,
+          quote: this.receive.symbol,
+          ratio: String(this.price),
         })}
+      </div>
+      ${this.connectionStatus === 'disconnect'
+        ? ''
+        : `<div class="helper-message-container">${this.helperMessage()}</div>`}
+
+      <div>
+        ${isReallyConnected(this.chainId, this.selectedAccount)
+          ? this.button({
+              label: 'Confirm Order',
+              click: this._handleConnectModal,
+              disabled: this.route ? false : true,
+            })
+          : this.button({
+              label: 'Connect Wallet',
+              click: this._handleConnectModal,
+              disabled: false,
+            })}
       </div>
     `;
   }
@@ -1263,7 +1869,14 @@ export class Widget extends LitElement {
 
   _connectMetaMask() {
     console.log('connecting to metamask', this.selectedNetwork);
-   // this.connectionStatus = 'pending';
+    // this.connectionStatus = 'pending';
+
+    // Check if ethereum is connected to metamask
+    // Handle Network Change
+    // Handle Account Change
+    // Disconnect
+    // Connect
+
     switch (this.selectedNetwork) {
       case 'binance':
         // TODO connect to binance
@@ -1334,7 +1947,7 @@ export class Widget extends LitElement {
                     nativeCurrency: {
                       name: 'HECO',
                       symbol: 'HT', // 2-6 characters long
-                      decimals: 18
+                      decimals: 18,
                     },
                     blockExplorerUrls: ['https://hecoinfo.com'],
                   },
@@ -1363,7 +1976,10 @@ export class Widget extends LitElement {
               (permission) => permission.parentCapability === 'eth_accounts'
             );
             if (accountsPermission) {
-              console.log('eth_accounts permission successfully requested!');
+              console.log(
+                'eth_accounts permission successfully requested!',
+                permissions
+              );
               this.connectionStatus = 'disconnect';
               this.update();
             }
@@ -1381,7 +1997,8 @@ export class Widget extends LitElement {
     return html`<div class="select-wallet-button-wrapper">
       <button
         ?disabled=${!this.acceptTermsAndService ||
-        this.connectionStatus !== 'disconnect'}
+        this.connectionStatus !== 'disconnect' ||
+        label != 'MetaMask'}
         type="button"
         class="select-wallet-button"
         @click=${click}
@@ -1475,23 +2092,220 @@ export class Widget extends LitElement {
     `;
   }
 
-  render() {
-    return html`${this.openConnectModal
-      ? this.modal({content: this.connectModal()})
-      : null}
-    ${this.header()} ${this.mainScreen()} `;
+  secondaryScreenHeader({label}) {
     return html`
-      <p>Color is: ${this.color}</p>
-      <h1>Hello, ${this.name}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Counts: ${this.count}
-      </button>
-      <slot></slot>
+      <div class="secondary-header-container">
+        <div
+          class="secondary-header-back-button"
+          @click=${this._setCurrentScreen('main')}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="17.501"
+            viewBox="0 0 20 17.501"
+          >
+            <g transform="translate(-968.751 -405.031)">
+              <path
+                id="路径"
+                d="M10,1.25a1.25,1.25,0,0,0-2.5,0V15.731L2.136,10.364a1.251,1.251,0,1,0-1.77,1.77l7.5,7.5a1.25,1.25,0,0,0,1.77,0l7.5-7.5a1.251,1.251,0,1,0-1.77-1.77L10,15.731Z"
+                transform="translate(988.751 405.031) rotate(90)"
+              ></path>
+            </g>
+          </svg>
+        </div>
+        ${label}
+      </div>
     `;
   }
 
-  _onClick() {
-    this.count++;
+  selectCurrencySearchInput() {
+    return html`
+      <div class="search-input-container">
+        <input
+          placeholder="Enter the token symbol or address"
+          class="search-input"
+          value=${this.searchString}
+          @input=${(e) => (this.searchString = e.target.value)}
+          style="height: 46px; font-size: 14px;"
+        /><svg
+          stroke="currentColor"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 16 16"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          class="search-icon"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z"
+            clip-rule="evenodd"
+          ></path>
+          <path
+            fill-rule="evenodd"
+            d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </div>
+    `;
+  }
+
+  dodoBackupImage() {
+    return `data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8'%3f%3e%3csvg width='28px' height='28px' viewBox='0 0 28 28' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e %3c!-- Generator: Sketch 60 (88103) - https://sketch.com --%3e %3ctitle%3e%e7%94%bb%e6%9d%bf%3c/title%3e %3cdesc%3eCreated with Sketch.%3c/desc%3e %3cg id='%e7%94%bb%e6%9d%bf' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' font-family='AppleColorEmoji%2c Apple Color Emoji' font-size='24' font-weight='normal' line-spacing='28'%3e %3ctext id='%f0%9f%90%a3' fill='white'%3e %3ctspan x='2' y='24'%3e%f0%9f%90%a3%3c/tspan%3e %3c/text%3e %3c/g%3e%3c/svg%3e`;
+  }
+
+  _openContractAddress(address) {
+    window.open(`https://etherscan.io/address/${address}`, '_blank');
+  }
+
+  currencyList(variant) {
+    const currencyItem = (currency, disabled, click) => {
+      return html`
+        <div
+          @click=${click}
+          ?disabled=${disabled}
+          class="currency-item-container"
+        >
+          <div class="currency-item-image-container">
+            <img
+              src=${currency.logo
+                ? currency.logo.url
+                : 'https://app.dodoex.io/assets/ethereum/' +
+                  currency.address +
+                  '/logo.png'}
+              class="currency-item-image"
+              onerror="this.onerror=null;this.src='https://cdn-media.dodoex.io/erc20/https_app_dodoex_io_static_media_yellow_Duck_1b3a058e_7dfe42fa9b.svg';"
+            />
+          </div>
+          <div class="currency-item-right-wrapper">
+            <div class="currency-item-right-left">
+              <div class="currency-item-symbol">
+                <span>${currency.symbol} </span>
+              </div>
+              <div class="currency-item-value"></div>
+            </div>
+            <div class="currency-item-right-right">
+              <span class="currency-item-name" title=${currency.name}
+                >${currency.name}</span
+              >
+              <i
+                @click=${() => this._openContractAddress(currency.address)}
+                class="currency-info-icon"
+                ><img
+                  src="data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8'%3f%3e%3csvg width='20px' height='20px' viewBox='0 0 20 20' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e %3ctitle%3e%e7%82%b9%e5%87%bb%e5%b1%95%e5%bc%80%3c/title%3e %3cdefs%3e %3cfilter color-interpolation-filters='auto' id='filter-1'%3e %3cfeColorMatrix in='SourceGraphic' type='matrix' values='0 0 0 0 0.521569 0 0 0 0 0.521569 0 0 0 0 0.552941 0 0 0 1.000000 0'%3e%3c/feColorMatrix%3e %3c/filter%3e %3crect id='path-2' x='0' y='0' width='20' height='20'%3e%3c/rect%3e %3c/defs%3e %3cg id='%e8%a1%a5%e5%85%85%e9%9c%80%e6%b1%82' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3e %3cg id='%e6%93%8d%e4%bd%9c-%e6%89%8b%e5%8a%a8%e6%b7%bb%e5%8a%a0' transform='translate(-318.000000%2c -315.000000)'%3e %3cg id='%e7%bc%96%e7%bb%84-23' transform='translate(18.000000%2c 122.000000)'%3e %3cg id='%e5%b8%81%e7%a7%8d' transform='translate(20.000000%2c 193.000000)'%3e %3cg id='Button---Info' transform='translate(280.000000%2c 0.000000)' filter='url(%23filter-1)'%3e %3cg%3e %3cmask id='mask-3' fill='white'%3e %3cuse xlink:href='%23path-2'%3e%3c/use%3e %3c/mask%3e %3cg id='%e7%9f%a9%e5%bd%a2'%3e%3c/g%3e %3cpath d='M10%2c20 C11.3717421%2c20 12.6611797%2c19.7376543 13.8683128%2c19.212963 C15.0754458%2c18.6882716 16.138546%2c17.9663923 17.0576132%2c17.0473251 C17.9766804%2c16.1282579 18.696845%2c15.0668724 19.218107%2c13.8631687 C19.739369%2c12.659465 20%2c11.3717421 20%2c10 C20%2c8.62825789 19.739369%2c7.34053498 19.218107%2c6.13683128 C18.696845%2c4.93312757 17.9749657%2c3.87002743 17.0524691%2c2.94753086 C16.1299726%2c2.02503429 15.0651578%2c1.30315501 13.8580247%2c0.781893004 C12.6508916%2c0.260631001 11.361454%2c0 9.98971193%2c0 C8.63168724%2c0 7.34910837%2c0.260631001 6.14197531%2c0.781893004 C4.93484225%2c1.30315501 3.87002743%2c2.02503429 2.94753086%2c2.94753086 C2.02503429%2c3.87002743 1.30315501%2c4.93312757 0.781893004%2c6.13683128 C0.260631001%2c7.34053498 0%2c8.62825789 0%2c10 C0%2c11.3717421 0.262345679%2c12.659465 0.787037037%2c13.8631687 C1.3117284%2c15.0668724 2.03360768%2c16.1282579 2.9526749%2c17.0473251 C3.87174211%2c17.9663923 4.93484225%2c18.6882716 6.14197531%2c19.212963 C7.34910837%2c19.7376543 8.6351166%2c20 10%2c20 Z M10%2c18.1584362 C8.87517147%2c18.1584362 7.81893004%2c17.9475309 6.83127572%2c17.5257202 C5.8436214%2c17.1039095 4.97770919%2c16.5209191 4.23353909%2c15.776749 C3.489369%2c15.0325789 2.90809328%2c14.1666667 2.48971193%2c13.1790123 C2.07133059%2c12.191358 1.86213992%2c11.1316872 1.86213992%2c10 C1.86213992%2c8.87517147 2.07133059%2c7.81893004 2.48971193%2c6.83127572 C2.90809328%2c5.8436214 3.489369%2c4.97599451 4.23353909%2c4.22839506 C4.97770919%2c3.48079561 5.84190672%2c2.89609053 6.82613169%2c2.47427984 C7.81035665%2c2.05246914 8.8648834%2c1.84156379 9.98971193%2c1.84156379 C11.1282579%2c1.84156379 12.1896433%2c2.05246914 13.1738683%2c2.47427984 C14.1580933%2c2.89609053 15.0240055%2c3.48079561 15.7716049%2c4.22839506 C16.5192044%2c4.97599451 17.1039095%2c5.8436214 17.5257202%2c6.83127572 C17.9475309%2c7.81893004 18.1584362%2c8.87517147 18.1584362%2c10 C18.1652949%2c11.1316872 17.9561043%2c12.191358 17.5308642%2c13.1790123 C17.1056241%2c14.1666667 16.5226337%2c15.0325789 15.781893%2c15.776749 C15.0411523%2c16.5209191 14.1769547%2c17.1039095 13.1893004%2c17.5257202 C12.2016461%2c17.9475309 11.138546%2c18.1584362 10%2c18.1584362 Z M9.92798354%2c6.63580247 C10.2914952%2c6.63580247 10.5984225%2c6.50720165 10.8487654%2c6.25 C11.0991084%2c5.99279835 11.2242798%2c5.68587106 11.2242798%2c5.32921811 C11.2242798%2c4.95884774 11.0991084%2c4.64677641 10.8487654%2c4.39300412 C10.5984225%2c4.13923182 10.2914952%2c4.01234568 9.92798354%2c4.01234568 C9.57133059%2c4.01234568 9.26611797%2c4.13923182 9.01234568%2c4.39300412 C8.75857339%2c4.64677641 8.63168724%2c4.95884774 8.63168724%2c5.32921811 C8.63168724%2c5.68587106 8.75857339%2c5.99279835 9.01234568%2c6.25 C9.26611797%2c6.50720165 9.57133059%2c6.63580247 9.92798354%2c6.63580247 Z M12.2427984%2c15.3292181 C12.4554184%2c15.3292181 12.6337449%2c15.260631 12.7777778%2c15.1234568 C12.9218107%2c14.9862826 12.9938272%2c14.8113855 12.9938272%2c14.5987654 C12.9938272%2c14.3930041 12.9218107%2c14.2215364 12.7777778%2c14.0843621 C12.6337449%2c13.9471879 12.4554184%2c13.8786008 12.2427984%2c13.8786008 L11.1111111%2c13.8786008 L11.1111111%2c9.11522634 C11.1111111%2c8.84087791 11.042524%2c8.61796982 10.9053498%2c8.44650206 C10.7681756%2c8.27503429 10.5658436%2c8.18930041 10.2983539%2c8.18930041 L8.45679012%2c8.18930041 C8.25102881%2c8.18930041 8.07441701%2c8.25788752 7.92695473%2c8.39506173 C7.77949246%2c8.53223594 7.70576132%2c8.7037037 7.70576132%2c8.90946502 C7.70576132%2c9.12208505 7.77949246%2c9.29698217 7.92695473%2c9.43415638 C8.07441701%2c9.57133059 8.25102881%2c9.6399177 8.45679012%2c9.6399177 L9.46502058%2c9.6399177 L9.46502058%2c13.8786008 L8.29218107%2c13.8786008 C8.07956104%2c13.8786008 7.90123457%2c13.9471879 7.75720165%2c14.0843621 C7.61316872%2c14.2215364 7.54115226%2c14.3930041 7.54115226%2c14.5987654 C7.54115226%2c14.8113855 7.61316872%2c14.9862826 7.75720165%2c15.1234568 C7.90123457%2c15.260631 8.07956104%2c15.3292181 8.29218107%2c15.3292181 L12.2427984%2c15.3292181 Z' id='%f4%80%85%b4' fill='%23FFE804' fill-rule='nonzero' mask='url(%23mask-3)'%3e%3c/path%3e %3c/g%3e %3c/g%3e %3c/g%3e %3c/g%3e %3c/g%3e %3c/g%3e%3c/svg%3e"
+                  width="20px"
+                  class="warning"
+                  alt=""
+                />
+              </i>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    let that = this;
+
+    return html`<div
+      @scroll="${(e) => {
+        const thisDom = this.shadowRoot.querySelector('#currency-list');
+
+        if (
+          thisDom.offsetHeight + thisDom.scrollTop >=
+          thisDom.scrollHeight - 5
+        ) {
+          that.showAmount = that.showAmount + 10;
+          that.update();
+        }
+      }}"
+      class="currency-list-container"
+      id="currency-list"
+    >
+      ${variant === 'pay'
+        ? currencyItem(this.pay, true)
+        : currencyItem(this.receive, true)}
+      ${variant === 'pay'
+        ? currencyItem(this.receive, false, () => {
+            this.currentScreen = 'main';
+            this._swapPayReceive();
+          })
+        : currencyItem(this.pay, false, () => {
+            this.currentScreen = 'main';
+            this._swapPayReceive();
+          })}
+      ${this.searchString
+        ? this.tokens
+            .filter(
+              (token) =>
+                token.symbol
+                  .toLowerCase()
+                  .includes(this.searchString.toLowerCase()) ||
+                token.address.includes(this.searchString)
+            )
+            .slice(0, this.showAmount)
+            .map((currency) =>
+              currencyItem(currency, false, () => {
+                if (variant === 'pay') {
+                  this.pay = currency;
+                } else {
+                  this.receive = currency;
+                }
+                this.currentScreen = 'main';
+                this.dispatchEvent(new Event('pair-changed'));
+              })
+            )
+        : this.tokens.slice(0, this.showAmount).map((currency) =>
+            currencyItem(currency, false, () => {
+              if (variant === 'pay') {
+                this.pay = currency;
+              } else {
+                this.receive = currency;
+              }
+              this.currentScreen = 'main';
+              this.dispatchEvent(new Event('pair-changed'));
+            })
+          )}
+    </div>`;
+  }
+
+  selectCurrency({variant}) {
+    return html`
+      <div>
+        ${this.secondaryScreenHeader({
+          label: variant === 'pay' ? ' Pay Token' : 'Receive Token',
+        })}
+        ${this.selectCurrencySearchInput()} ${this.currencyList(variant)}
+      </div>
+    `;
+  }
+
+  render() {
+    if (!window.ethereum) return html`<div>Please install metamask</div>`;
+
+    if (this.initialLoading)
+      return html`
+        <div class="loading-container">
+          <img
+            class="loading-image"
+            src="https://app.dodoex.io/assets/load.gif"
+          />
+        </div>
+      `;
+
+    if (this.currentScreen == 'selectPay')
+      return html`${this.selectCurrency({variant: 'pay'})}`;
+    if (this.currentScreen == 'selectReceive')
+      return html`${this.selectCurrency({variant: 'receive'})}`;
+
+    return html`
+      ${this.openConnectModal
+        ? this.modal({content: this.connectModal()})
+        : null}
+      ${this.header()} ${this.mainScreen()}
+    `;
   }
 }
 
