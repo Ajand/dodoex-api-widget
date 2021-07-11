@@ -1,5 +1,5 @@
 {
-  "name": "@lit/lit-starter-js",
+  "name": "dodoex-web-component",
   "private": false,
   "version": "0.0.1",
   "description": "A semi full-featured dodo app widget as a web component so everybody could easily add it to their project no matter their environment. It could be react, vue, angular or simple HTML.",
