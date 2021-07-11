@@ -46,6 +46,9 @@
     "lit": "^2.0.0-rc.1",
     "lit-element": "^3.0.0-rc.1"
   },
+  "files": [
+    "dodex-widget.bundled.js"
+  ],
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
