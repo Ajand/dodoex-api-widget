@@ -1,0 +1,10 @@
+deploy:
+  provider: npm
+  email: aj.mardalizad@gmail.com
+  api_key:
+    secure: IymEGliEalcwelwdBJlNClvj7ZwuFPbUwyNJhXxwH6k7rgnI1Lhh4K+HYkyyRuHRLdzOL183xBYKq/RJBhz3cGJd1Bw+9qlkdpH1J9jqY/F/SwZ86xannkL1yszGA8Qvnc6ysnJMDikoe3n2SbuBuUiEHtm1jao0cIzgRquI0PVWq7A8KPEEaa5meWNjXmHduJQJsNaoDZpnKfa3q5o3E4W0dlJ9D9zdTIpVGYaDaAHHe604yIqwhkzgdEJdklac+n2XHREVJzi5cFlHZKJr5veNtK1TMEL242FjDhU726ORACA87JP6XyTkAyWV32B1FLb9YiJ2vgfQF3JPBp7/mG/px+NF+43ZLiB8Wb6hOuuvfX61HdDl8X/XzQmIIbDT5v43yyDMLSHrCGCezUnKTUogG5WAzm3oCwlf+bHrnX9wWf4oIRUvLzeEOPq9GDXRsBYxq9KdLeo2x3eusySRdRTdJ9OOjnsMDIlSaaXwmSbn4xPPP9bmeVgg1Ngj6MlG742YdR3mf2B+8fkptDklNpELkli4+TrmgQPrVrRRpp3wgftLh5g0LIcBwBmFcZkilUZLNsxUNWxIltBEmKA0qjDtU8r7ByvLc3tY/WA2NCser/2bbfzEAYJH/hmxqftH2wR3zKjkcp9zILTEZKiVQx5n98+SsNTZZSsx2VSOroQ=
+  on:
+    tags: true
+    repo: Ajand/dodoex-api-widget
+    branch: publish
+  skip_cleanup: 'true'
