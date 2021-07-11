@@ -8,6 +8,7 @@ import summary from 'rollup-plugin-summary';
 import {terser} from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 
 export default {
   input: 'dodex-widget.js',
@@ -22,6 +23,7 @@ export default {
   },
   plugins: [
     replace({'Reflect.decorate': 'undefined'}),
+    minifyHTML(),
     resolve(),
     terser({
       ecma: 2017,

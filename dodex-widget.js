@@ -10,6 +10,8 @@ import {LitElement, html, css, unsafeCSS, svg} from 'lit';
 const iconsDictionary = {
   ethereum:
     'https://cdn-media.dodoex.io/erc20/https_s2_coinmarketcap_com_static_img_coins_64x64_1027_13267ae470.png',
+  kovan:
+    'https://cdn-media.dodoex.io/erc20/https_s2_coinmarketcap_com_static_img_coins_64x64_1027_13267ae470.png',
   usdc:
     'https://app.dodoex.io/assets/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48/logo.png',
   dodo: `data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8'%3f%3e%3csvg width='50px' height='50px' viewBox='0 0 50 50' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3e %3c!-- Generator: Sketch 60 (88103) - https://sketch.com --%3e %3ctitle%3e%e7%94%bb%e6%9d%bf%3c/title%3e %3cdesc%3eCreated with Sketch.%3c/desc%3e %3cdefs%3e %3clinearGradient x1='4.51827151%25' y1='-4.3727563%25' x2='100%25' y2='100%25' id='linearGradient-1'%3e %3cstop stop-color='%23FFFC2C' offset='0%25'%3e%3c/stop%3e %3cstop stop-color='%23EFE806' offset='100%25'%3e%3c/stop%3e %3c/linearGradient%3e %3c/defs%3e %3cg id='%e7%94%bb%e6%9d%bf' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3e %3cg id='%e7%bc%96%e7%bb%84'%3e %3ccircle id='%e6%a4%ad%e5%9c%86%e5%bd%a2' fill='url(%23linearGradient-1)' cx='25' cy='25' r='25'%3e%3c/circle%3e %3cpath d='M25.4338561%2c8 C26.5689739%2c8 27.4891195%2c9.6770428 27.4891195%2c11.7454141 C27.4891195%2c11.7954419 27.4882148%2c11.8449138 27.4871291%2c11.8943858 C28.0965785%2c11.1484158 28.8077236%2c10.7785807 29.3504014%2c11.0146378 C29.9023078%2c11.2547712 30.1370038%2c12.0607745 30.0253558%2c13.0531777 C29.9980319%2c13.5234389 29.8847554%2c14.0398369 29.6797357%2c14.5571614 C29.5608497%2c14.8571429 29.4195254%2c15.1345192 29.2637249%2c15.3844729 C37.352502%2c17.2356865 43.0888909%2c24.0885677 42.9989573%2c36 L42.9989573%2c36 L38.0759518%2c36 C38.1523139%2c25.9036502 32.4669537%2c20.9186585 25.0277978%2c20.7619048 C16.9267159%2c20.5912544 12.4425213%2c26.1532333 11.9233674%2c36 L11.9233674%2c36 L7%2c36 C7.63080192%2c24.0389105 12.6413886%2c16.7509728 21.4431202%2c15.318325 C21.3023388%2c15.1076524 21.0428523%2c14.681675 20.9272234%2c14.4337595 C20.2372498%2c12.9564573 20.3353263%2c11.4352418 21.1461764%2c11.0357606 C21.7945308%2c10.7165092 22.7021907%2c11.2119696 23.3927071%2c12.1789883 C23.3836594%2c12.036687 23.3785927%2c11.8921623 23.3785927%2c11.7454141 C23.3785927%2c9.6770428 24.2987384%2c8 25.4338561%2c8 Z M20.9383096%2c26.5747867 C21.5315041%2c26.5747867 22.0125209%2c27.1257146 22.0125209%2c27.8049285 L22.0125209%2c27.8049285 L22.0125209%2c30.8265478 C22.0125209%2c31.5059879 21.5315041%2c32.0566897 20.9383096%2c32.0566897 C20.3449169%2c32.0566897 19.8639002%2c31.5059879 19.8639002%2c30.8265478 L19.8639002%2c30.8265478 L19.8639002%2c27.8049285 C19.8639002%2c27.1257146 20.3449169%2c26.5747867 20.9383096%2c26.5747867 Z M29.5325944%2c26.5747867 C30.1259871%2c26.5747867 30.6070038%2c27.1257146 30.6070038%2c27.8049285 L30.6070038%2c27.8049285 L30.6070038%2c30.8265478 C30.6070038%2c31.5059879 30.1259871%2c32.0566897 29.5325944%2c32.0566897 C28.9393999%2c32.0566897 28.4583831%2c31.5059879 28.4583831%2c30.8265478 L28.4583831%2c30.8265478 L28.4583831%2c27.8049285 C28.4583831%2c27.1257146 28.9393999%2c26.5747867 29.5325944%2c26.5747867 Z' id='%e5%bd%a2%e7%8a%b6%e7%bb%93%e5%90%88' fill='black'%3e%3c/path%3e %3c/g%3e %3c/g%3e%3c/svg%3e`,
@@ -53,8 +55,11 @@ const chainName = (chainId) => {
       return 'Heco';
     case 56:
       return 'Binance';
+    case 137:
+      return 'Polygon';
+
     default:
-      return null;
+      return 'Ethereum';
   }
 };
 
@@ -68,13 +73,170 @@ const networkName = (chainId) => {
       return 'heco';
     case 56:
       return 'binance';
+    case 137:
+      return 'polygon';
+
     default:
-      return null;
+      return 'ethereum';
   }
 };
 
-const isReallyConnected = (chainId, accountAddress) =>
-  chainName(chainId) && accountAddress;
+const explorer = (chainId, address) => {
+  switch (chainId) {
+    case 1:
+      return `https://etherscan.io/address/${address}`;
+    case 42:
+      return `https://kovan.etherscan.io/address/${address}`;
+    case 128:
+      return `https://hecoinfo.com/address/${address}`;
+    case 56:
+      return `https://bscscan.com/address/${address}`;
+    case 137:
+      return `https://polygonscan.com/address/${address}`;
+
+    default:
+      return `https://etherscan.io/address/${address}`;
+  }
+};
+
+const isReallyConnected = (chainId, accountAddress, connectionStatus) =>
+  chainName(chainId) && accountAddress && connectionStatus == 'connected';
+
+const formatByDecimal = (amount, decimals) =>
+  (amount / 10 ** decimals).toFixed(2);
+
+const erc20abi = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'name',
+    outputs: [{name: '', type: 'string'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      {name: '_spender', type: 'address'},
+      {name: '_value', type: 'uint256'},
+    ],
+    name: 'approve',
+    outputs: [{name: '', type: 'bool'}],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{name: '', type: 'uint256'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      {name: '_from', type: 'address'},
+      {name: '_to', type: 'address'},
+      {name: '_value', type: 'uint256'},
+    ],
+    name: 'transferFrom',
+    outputs: [{name: '', type: 'bool'}],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'decimals',
+    outputs: [{name: '', type: 'uint8'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [{name: '_owner', type: 'address'}],
+    name: 'balanceOf',
+    outputs: [{name: 'balance', type: 'uint256'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'symbol',
+    outputs: [{name: '', type: 'string'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      {name: '_to', type: 'address'},
+      {name: '_value', type: 'uint256'},
+    ],
+    name: 'transfer',
+    outputs: [{name: '', type: 'bool'}],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [
+      {name: '_owner', type: 'address'},
+      {name: '_spender', type: 'address'},
+    ],
+    name: 'allowance',
+    outputs: [{name: '', type: 'uint256'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {payable: true, stateMutability: 'payable', type: 'fallback'},
+  {
+    anonymous: false,
+    inputs: [
+      {indexed: true, name: 'owner', type: 'address'},
+      {indexed: true, name: 'spender', type: 'address'},
+      {indexed: false, name: 'value', type: 'uint256'},
+    ],
+    name: 'Approval',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {indexed: true, name: 'from', type: 'address'},
+      {indexed: true, name: 'to', type: 'address'},
+      {indexed: false, name: 'value', type: 'uint256'},
+    ],
+    name: 'Transfer',
+    type: 'event',
+  },
+];
+
+const getRPC = (that) => {
+  switch (that.chainId) {
+    case 1:
+      return that.ethrpc;
+    case 42:
+      return that.kovanrpc;
+    case 56:
+      return that.bscrpc;
+    case 128:
+      return that.hecorpc;
+    case 137:
+      return that.polygonrpc;
+  }
+};
 
 /**
  * An example element.
@@ -98,7 +260,7 @@ export class Widget extends LitElement {
         color: var(--dodoText);
         font-family: var(--dodoFontFamily) !important;
         position: relative;
-        height: 100%
+        height: 100%;
       }
 
       .loading-image {
@@ -935,11 +1097,184 @@ export class Widget extends LitElement {
         -webkit-box-align: center;
         align-items: center;
         left: 0;
+        cursor: pointer;
+      }
+
+      .setting-title {
+        font-size: 14px;
+        font-weight: 400;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .slippage-container {
+        display: flex;
+        align-items: flex-start;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .slippage-item-selected {
+        background-color: var(--dodoPrimary) !important;
+        color: var(--dodoBackground) !important;
+      }
+
+      .slippage-item {
+        user-select: none;
+        border-radius: 10px;
+        height: 30px;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 10px;
+        padding: 0px 10px;
+        margin-bottom: 10px;
+        min-width: 60px;
+        background-color: var(--dodoSecondaryBackground);
+        color: var(--dodoText);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+      }
+
+      .slippage-input-container {
+        height: 30px;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        margin-right: 10px;
+        padding: 0px 10px;
+        margin-bottom: 10px;
+      }
+
+      .slippage-input {
+        outline: 0px;
+        border-radius: 10px;
+        margin-left: -10px;
+        margin-right: -10px;
+        padding: 0px 10px;
+        width: 60px;
+        height: 100%;
+        border: none;
+        background-color: var(--dodoSecondaryBackground);
+        color: var(--dodoText);
+      }
+
+      .account-modal-header {
+        font-size: 20px;
+        line-height: 28px;
+        margin-top: 30px;
+        text-align: left;
+        margin-left: 30px;
+        padding-right: 30px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: var(--dodoText);
+        position: relative;
+        margin-top: 24px;
+        padding-right: 20px;
+        margin-left: 20px;
+      }
+
+      .account-modal-header-top {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+      }
+
+      .account-modal-address {
+        color: var(--dodoPrimary);
+        line-height: 28px;
+      }
+
+      .account-modal-chain-name {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        color: var(--dodoText);
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      .account-modal-header-bottom {
+        position: relative;
+        color: var(--dodoSecondaryText);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .modal-button-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6%;
+        padding: 0px 20px;
+      }
+
+      .modal-button {
+        background: var(--dodoHelperBackground);
+        color: var(--dodoText);
+        padding: 5px 12px;
+        font-size: 14px;
+        border-radius: 10px;
+        white-space: nowrap;
+        height: 36px;
+        appearance: none;
+        cursor: pointer;
+        border: none;
+        outline: 0px;
+        box-shadow: none;
+        transition: background-color 250ms ease 0s, color 250ms ease 0s;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        align-items: center;
+        margin-bottom: 30px;
+        height: 74px;
+        border-radius: 16px;
+        background-color: var(--dodoSecondaryBackground);
+      }
+
+      .modal-button:hover {
+        outline: 0px;
+        background-color: var(--dodoHelperLightBackground);
+        color: var(--dodoText);
+      }
+
+      .modal-button > svg {
+        margin-bottom: 8px;
+      }
+
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .slippage-percent {
+        margin-left: 20px;
       }
 
       @media screen and (max-width: 767px) {
         .modal-container {
           width: 91vw !important;
+        }
+
+        .modal-button-container {
+          gap: 4%;
         }
 
         .connect-modal-select-wallet-button-container {
@@ -980,6 +1315,9 @@ export class Widget extends LitElement {
       openConnectModal: {
         type: Boolean,
       },
+      openAccountModal: {
+        type: Boolean,
+      },
       acceptTermsAndService: {
         type: Boolean,
       },
@@ -1008,6 +1346,15 @@ export class Widget extends LitElement {
       polygonrpc: {type: String, attribute: true},
       bscrpc: {type: String, attribute: true},
       hecorpc: {type: String, attribute: true},
+      slippage: {type: Number},
+      deadline: {type: Number},
+      helperMessage: {type: String},
+      web3: {type: Object},
+      mainBalance: {type: Number},
+      payBalance: {type: Number},
+      receiveBalance: {type: Number},
+      dodoPrice: {type: Number},
+      ethPrice: {type: Number},
     };
   }
 
@@ -1016,25 +1363,32 @@ export class Widget extends LitElement {
       if (ethereum.isConnected()) {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(getRPC(this));
       }
 
       ethereum.on('connect', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(getRPC(this));
       });
       ethereum.on('accountsChanged', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(getRPC(this));
+
         window.location.reload();
       });
       ethereum.on('chainChanged', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(getRPC(this));
         window.location.reload();
       });
       ethereum.on('disconnect', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(getRPC(this));
+
         window.location.reload();
       });
     }
@@ -1046,14 +1400,20 @@ export class Widget extends LitElement {
     this.count = 0;
     this.inverse = false;
     this.openConnectModal = false;
+    this.openAccountModal = false;
     this.acceptTermsAndService = true;
     this.selectedNetwork = 'ethereum';
-    this.connectionStatus = 'disconnect';
+    this.connectionStatus = localStorage.getItem('cstatus')
+      ? localStorage.getItem('cstatus')
+      : 'disconnect';
     this.initialLoading = true;
     this.currentScreen = 'main';
     this.showAmount = 10;
     this.price = 2000;
     this.payAmount = 0;
+    this.slippage = 3;
+    this.deadline = 20;
+    this.helperMessage = '';
 
     if (!Web3 && !window.Web3) {
       throw new Error(
@@ -1063,15 +1423,115 @@ export class Widget extends LitElement {
 
     this.addEventListener('pair-changed', () => {
       this._findCurrentPrice();
+      this._findBalance();
+    });
+
+    this.addEventListener('calc-backup-price', () => {
+      if (this.dodoPrice && this.ethPrice) {
+        if (this.pay.symbol == 'USDC' && this.receive.symbol == 'ETH') {
+          this.price = 1 / this.ethPrice;
+        } else if (this.receive.symbol == 'USDC' && this.pay.symbol == 'ETH') {
+          this.price = this.ethPrice;
+        } else if (this.pay.symbol == 'USDC' && this.receive.symbol == 'DODO') {
+          this.price = 1 / this.dodoPrice;
+        } else if (this.receive.symbol == 'USDC' && this.pay.symbol == 'DODO') {
+          this.price = this.ethPrice;
+        } else if (this.pay.symbol == 'DODO' && this.receive.symbol == 'ETH') {
+          this.price = this.dodoPrice / this.ethPrice;
+        } else if (this.receive.symbol == 'DODO' && this.pay.symbol == 'ETH') {
+          this.price = 1 / (this.dodoPrice / this.ethPrice);
+        }
+      }
     });
 
     setInterval(() => {
       if (this.pay && this.receive) {
-        console.log('automated refresh', this.refreshTime);
+        console.log('automated refresh');
         this._findCurrentPrice(true);
+        this._findBalance();
       }
     }, 30 * 1000);
   }
+
+  _findBalance() {
+    this.web3.eth.getBalance(this.selectedAccount).then((balance) => {
+      this.mainBalance = formatByDecimal(balance, 18);
+    });
+
+    if (this.pay.address === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
+      this.payBalance = undefined;
+
+      this.web3.eth.getBalance(this.selectedAccount).then((balance) => {
+        this.payBalance = formatByDecimal(balance, this.pay.decimals);
+      });
+    } else {
+      this.payBalance = undefined;
+
+      const contract = new this.web3.eth.Contract(erc20abi, this.pay.address);
+      contract.methods
+        .balanceOf(this.selectedAccount)
+        .call()
+        .then((balance) => {
+          this.payBalance = formatByDecimal(balance, this.pay.decimals);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (this.receive.address === '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
+      this.receiveBalance = undefined;
+
+      this.web3.eth.getBalance(this.selectedAccount).then((balance) => {
+        this.receiveBalance = formatByDecimal(balance, this.receive.decimals);
+      });
+    } else {
+      this.receiveBalance = undefined;
+
+      const contract = new this.web3.eth.Contract(
+        erc20abi,
+        this.receive.address
+      );
+      contract.methods
+        .balanceOf(this.selectedAccount)
+        .call()
+        .then((balance) => {
+          this.receiveBalance = formatByDecimal(balance, this.receive.decimals);
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  _findBackupPrice() {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=dodo&vs_currencies=usd',
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result))
+      .then(({dodo}) => {
+        this.dodoPrice = dodo.usd;
+        this.dispatchEvent(new Event('calc-backup-price'));
+      })
+      .catch((error) => console.log('error', error));
+
+    fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result))
+      .then(({ethereum}) => {
+        this.ethPrice = ethereum.usd;
+        this.dispatchEvent(new Event('calc-backup-price'));
+      })
+      .catch((error) => console.log('error', error));
+  }
+
+  _calcBackupPrice() {}
 
   _findCurrentPrice(automated) {
     if (!this.pay || !this.receive) return;
@@ -1097,9 +1557,17 @@ export class Widget extends LitElement {
         return res.data;
       })
       .then((resArray) => {
-        return resArray[resArray.length - 1];
+        if (!resArray) {
+          this._findBackupPrice();
+        } else {
+          return resArray[resArray.length - 1];
+        }
       })
-      .then((lastItem) => (this.price = lastItem[1]))
+      .then((lastItem) => {
+        if(lastItem) {
+          this.price = lastItem[1];
+        }
+      })
       .catch((error) => console.log('error', error));
   }
 
@@ -1118,9 +1586,9 @@ export class Widget extends LitElement {
         this.receive.address
       }&toTokenDecimals=${this.receive.decimals}&fromAmount=${
         this.payAmount ** this.pay.decimals
-      }&slippage=3&userAddr=${this.selectedAccount}&chainId=${1}&rpc=${
-        this.ethrpc
-      } `,
+      }&slippage=3&userAddr=${this.selectedAccount}&chainId=${
+        this.chainId
+      }&rpc=${getRPC(this)} `,
       requestOptions
     )
       .then((response) => response.text())
@@ -1187,6 +1655,14 @@ export class Widget extends LitElement {
     };
   }
 
+  _disconnect() {
+    localStorage.setItem('cstatus', 'disconnect');
+    this.connectionStatus = 'disconnect';
+    this.accountModal = false 
+    window.location.reload();
+
+  }
+
   refreshButtonIcon() {
     return html`<svg
       class="button-icon"
@@ -1235,6 +1711,7 @@ export class Widget extends LitElement {
     let temp = this.pay;
     this.pay = this.receive;
     this.receive = temp;
+    this.payAmount = 0;
     this.dispatchEvent(new Event('pair-changed'));
   }
 
@@ -1289,11 +1766,19 @@ export class Widget extends LitElement {
   }
 
   iconButton({icon, click}) {
-    return html` <button @click=${click} class="icon-button">${icon}</button> `;
+    return html`
+      <button
+        @click=${() => {
+          click();
+        }}
+        class="icon-button"
+      >
+        ${icon}
+      </button>
+    `;
   }
 
   button({label, click, disabled = false}) {
-    console.log(disabled, this.route);
     return html`<button @click=${click} ?disabled=${disabled} class="button">
       ${label}
     </button>`;
@@ -1301,8 +1786,17 @@ export class Widget extends LitElement {
 
   header() {
     return html`<div class="top-bar">
-      <div class="connected-wallet">
-        ${isReallyConnected(this.chainId, this.selectedAccount)
+      <div
+        class="connected-wallet"
+        @click=${() => {
+          this._handleAccountModal();
+        }}
+      >
+        ${isReallyConnected(
+          this.chainId,
+          this.selectedAccount,
+          this.connectionStatus
+        )
           ? html`
             <div class="connected-network-container">
               ${chainName(this.chainId)} 
@@ -1323,7 +1817,10 @@ export class Widget extends LitElement {
           click: () => this._findCurrentPrice(),
         })}
         ${this.iconButton({icon: this.shareButtonIcon()})}
-        ${this.iconButton({icon: this.configButtonIcon()})}
+        ${this.iconButton({
+          icon: this.configButtonIcon(),
+          click: () => (this.currentScreen = 'settings'),
+        })}
       </div>
     </div>`;
   }
@@ -1360,7 +1857,7 @@ export class Widget extends LitElement {
     `;
   }
 
-  amountField({label, currency, currencyIcon, secondary}) {
+  amountField({label, currency, currencyIcon, secondary, address}) {
     return html`
       <div class="field">
         <div class="field-top">
@@ -1378,7 +1875,9 @@ export class Widget extends LitElement {
               <div class="field-currency-icon">
                 <img
                   class="field-icon-image"
-                  src="${currencyIcon}"
+                  src="${this.chainId == 42
+                    ? 'https://cdn-media.dodoex.io/erc20/https_app_dodoex_io_static_media_yellow_Duck_1b3a058e_7dfe42fa9b.svg'
+                    : currencyIcon}"
                   onerror="this.onerror=null;this.src='https://cdn-media.dodoex.io/erc20/https_app_dodoex_io_static_media_yellow_Duck_1b3a058e_7dfe42fa9b.svg';"
                 />
               </div>
@@ -1390,10 +1889,13 @@ export class Widget extends LitElement {
             @input=${(e) => {
               if (label == 'Pay') {
                 this.payAmount = e.target.value;
-                console.log(this.route);
                 if (
                   e.target.value != '' &&
-                  isReallyConnected(this.chainId, this.selectedAccount)
+                  isReallyConnected(
+                    this.chainId,
+                    this.selectedAccount,
+                    this.connectionStatus
+                  )
                 ) {
                   this._findRoute();
                 }
@@ -1416,12 +1918,16 @@ export class Widget extends LitElement {
   }
 
   max() {
-    return html`<span class="available-max">Max</span>`;
+    return html`<span
+      class="available-max"
+      @click=${() => (this.payAmount = this.payBalance)}
+      >Max</span
+    >`;
   }
 
-  available({base, amount}) {
+  available({base, amount, max}) {
     return html`
-      Available: ${amount ? amount : 'Loading'} ${base && this.max()}
+      Available: ${amount ? amount : 'Loading'} ${base && max ? this.max() : ''}
     `;
   }
 
@@ -1454,20 +1960,18 @@ export class Widget extends LitElement {
       : html`<div>Loading ...</div>`;
   }
 
-  helperMessage() {
-    return html` Enter an amount to see more trading details. `;
+  helperMessageShower() {
+    return html`${this.helperMessage}`;
   }
 
   mainScreen() {
-
-    console.log(this.pay, this.receive)
-
     return html`
       <div></div>
       <div>
         ${this.amountField({
           label: 'Pay',
           currency: this.pay.symbol,
+          address: this.pay.address,
           currencyIcon: this.pay.logo
             ? this.pay.logo.url
             : 'https://app.dodoex.io/assets/ethereum/' +
@@ -1476,7 +1980,11 @@ export class Widget extends LitElement {
           secondary:
             this.connectionStatus === 'disconnect'
               ? ''
-              : this.available({base: true}),
+              : this.available({
+                  base: true,
+                  amount: this.payBalance,
+                  max: true,
+                }),
         })}
       </div>
       <div class="swap-fields-container">
@@ -1486,6 +1994,7 @@ export class Widget extends LitElement {
         ${this.amountField({
           label: 'Recieve (Estimated)',
           currency: this.receive.symbol,
+          address: this.receive.address,
           currencyIcon: this.receive.logo
             ? this.receive.logo.url
             : 'https://app.dodoex.io/assets/ethereum/' +
@@ -1494,7 +2003,11 @@ export class Widget extends LitElement {
           secondary:
             this.connectionStatus === 'disconnect'
               ? ''
-              : this.available({base: true}),
+              : this.available({
+                  base: true,
+                  amount: this.receiveBalance,
+                  max: false,
+                }),
         })}
       </div>
       <div class="ratio-container">
@@ -1504,12 +2017,18 @@ export class Widget extends LitElement {
           ratio: String(this.price),
         })}
       </div>
-      ${this.connectionStatus === 'disconnect'
-        ? ''
-        : `<div class="helper-message-container">${this.helperMessage()}</div>`}
+      ${this.helperMessage
+        ? html`<div class="helper-message-container">
+            ${this.helperMessageShower()}
+          </div>`
+        : ''}
 
       <div>
-        ${isReallyConnected(this.chainId, this.selectedAccount)
+        ${isReallyConnected(
+          this.chainId,
+          this.selectedAccount,
+          this.connectionStatus
+        )
           ? this.button({
               label: 'Confirm Order',
               click: this._handleConnectModal,
@@ -1522,6 +2041,11 @@ export class Widget extends LitElement {
             })}
       </div>
     `;
+  }
+
+  _handleAccountModal() {
+    this.openAccountModal = !this.openAccountModal;
+    this.update();
   }
 
   _handleConnectModal() {
@@ -1868,7 +2392,6 @@ export class Widget extends LitElement {
   }
 
   _connectMetaMask() {
-    console.log('connecting to metamask', this.selectedNetwork);
     // this.connectionStatus = 'pending';
 
     // Check if ethereum is connected to metamask
@@ -1886,44 +2409,92 @@ export class Widget extends LitElement {
             params: [{chainId: toHex(56)}],
           })
           .then(() => {
-            console.log('switched to binance');
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
+            console.log('switched to heco');
+          })
+          .catch((err) => {
+            if (err.code == 4902) {
+              return ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: toHex(56),
+                    chainName: 'Smart Chain',
+                    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                    nativeCurrency: {
+                      name: 'Binance Coin',
+                      symbol: 'BNB', // 2-6 characters long
+                      decimals: 18,
+                    },
+                    blockExplorerUrls: ['https://bscscan.com'],
+                  },
+                ],
+              });
+            } else {
+              console.log(err);
+            }
+          })
+          .then(() => {
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
+            console.log('network added');
           })
           .catch((err) => {
             console.log(err);
           });
-        /* try {
-          await ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '56' }],
-          });
-        } catch (switchError) {
-          // This error code indicates that the chain has not been added to MetaMask.
-          if (error.code === 4902) {
-            try {
-              await ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [{ 
-                  chainId: '56',
-                  networkName: 'Smart Chain',
-                  rpcUrls: ['https://bsc-dataseed.binance.org/'],
-                  nativeCurrency: {
-                    name: 'Binance Coin',
-                    symbol: 'BNB', // 2-6 characters long
-                    decimals: 18,
-                  },
-                  blockExplorerUrls:['https://bscscan.com'],
-              }],
-              });
-            } catch (addError) {
-              // handle "add" error
-            }
-          }
-          // handle other "switch" errors
-        }*/
-
         break;
       case 'polygon':
         // TODO connect to polygon
+        ethereum
+          .request({
+            method: 'wallet_switchEthereumChain',
+            params: [{chainId: toHex(137)}],
+          })
+          .then(() => {
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
+            console.log('switched to polygon');
+          })
+          .catch((err) => {
+            console.log('were in backup');
+            if (err.code == 4902) {
+              return ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: toHex(137),
+                    chainName: 'Matic Mainnet',
+                    rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+                    nativeCurrency: {
+                      name: 'Polygon',
+                      symbol: 'MATIC', // 2-6 characters long
+                      decimals: 18,
+                    },
+                    blockExplorerUrls: ['https://polygonscan.com'],
+                  },
+                ],
+              });
+            } else {
+              console.log(err);
+            }
+          })
+          .then(() => {
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
+            console.log('network added');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         break;
       case 'heco':
         // TODO connecto to polygon
@@ -1933,6 +2504,10 @@ export class Widget extends LitElement {
             params: [{chainId: toHex(128)}],
           })
           .then(() => {
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
             console.log('switched to heco');
           })
           .catch((err) => {
@@ -1958,6 +2533,10 @@ export class Widget extends LitElement {
             }
           })
           .then(() => {
+            localStorage.setItem('cstatus', 'connected');
+            this.connectionStatus = 'connected';
+            this._handleConnectModal();
+
             console.log('network added');
           })
           .catch((err) => {
@@ -1980,13 +2559,18 @@ export class Widget extends LitElement {
                 'eth_accounts permission successfully requested!',
                 permissions
               );
-              this.connectionStatus = 'disconnect';
+              localStorage.setItem('cstatus', 'connected');
+              this.connectionStatus = 'connected';
+              this._handleConnectModal();
+
               this.update();
             }
           })
           .catch((err) => {
             console.log(err);
             this.connectionStatus = 'disconnect';
+            this._handleConnectModal();
+
             this.update();
           });
         break;
@@ -2008,10 +2592,120 @@ export class Widget extends LitElement {
     </div>`;
   }
 
+  accountModal() {
+    return html`
+      <div class="account-modal-header">
+        <div class="account-modal-header-top">
+          <div class="account-modal-address">
+            ${this.selectedAccount.slice(0, 5)}...${this.selectedAccount.slice(
+              this.selectedAccount.length - 5,
+              this.selectedAccount.length
+            )}
+          </div>
+          <div class="account-modal-chain-name">
+            ${chainName(this.chainId)}
+          </div>
+        </div>
+        <div class="account-modal-header-bottom">MetaMask</div>
+      </div>
+      <div class="modal-button-container">
+        <button
+          @click=${() =>
+            window.open(explorer(this.chainId, this.selectedAccount), '_blank')}
+          type="button"
+          class="modal-button"
+        >
+          <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" d="M-1-1h582v402H-1z"></path>
+            <g stroke="null" fill-rule="nonzero" fill="#FFF">
+              <path
+                d="M10.934 4.25a.622.622 0 00-.62-.624H2.087c-1.028 0-1.86.839-1.86 1.873v12.484c0 1.034.832 1.872 1.86 1.872h12.397c1.028 0 1.86-.838 1.86-1.872V9.698a.622.622 0 00-.62-.624c-.342 0-.62.28-.62.624v8.285a.622.622 0 01-.62.624H2.087a.622.622 0 01-.62-.624V5.499c0-.345.277-.624.62-.624h8.227c.342 0 .62-.28.62-.624z"
+              ></path>
+              <path
+                d="M19.798.786a.635.635 0 00-.633-.637h-6.332a.635.635 0 00-.633.637c0 .352.284.638.633.638h4.803L7.32 11.81a.641.641 0 00.284 1.068.631.631 0 00.613-.165L18.532 2.325v4.837c0 .352.283.637.633.637.35 0 .633-.285.633-.637V.786z"
+              ></path>
+            </g></svg
+          >View
+        </button>
+        <button
+          @click=${() => {
+            navigator.clipboard
+              .writeText(this.selectedAccount)
+              .then(() => console.log('copied into clipboard'));
+          }}
+          type="button"
+          class="modal-button"
+        >
+          <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" d="M-1-1h582v402H-1z"></path>
+            <path
+              d="M9 11.417a2.25 2.25 0 012.25-2.25h9a2.25 2.25 0 012.25 2.25v2.25h2.25a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-2.25h-2.25A2.25 2.25 0 019 20.417v-9zm2.25-1.125c-.621 0-1.125.504-1.125 1.125v9c0 .621.504 1.125 1.125 1.125h9c.622 0 1.125-.504 1.125-1.125v-9c0-.621-.503-1.125-1.125-1.125h-9zm3.375 12.271v2.354c0 .621.504 1.125 1.125 1.125h9c.622 0 1.125-.504 1.125-1.125v-9c0-.621-.503-1.125-1.125-1.125h-2.286v5.771a2 2 0 01-2 2h-5.839 0z"
+              transform="matrix(-1.10185 0 0 -1.08333 29.75 29.598)"
+              stroke="null"
+              fill-rule="nonzero"
+              fill="#FFF"
+            ></path></svg
+          >Copy
+        </button>
+        <button
+          @click=${() => {
+            this.openAccountModal = false;
+            this.openConnectModal = true;
+          }}
+          type="button"
+          class="modal-button"
+        >
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 11 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8.906c0 .19.177.344.394.344h9.264l-2.472 2.162a.315.315 0 000 .487.434.434 0 00.556 0l3.143-2.75A.324.324 0 0011 8.906a.324.324 0 00-.115-.243l-3.143-2.75a.434.434 0 00-.556 0 .315.315 0 000 .487l2.472 2.162H.394c-.217 0-.393.154-.393.344zm11-5.812c0 .19-.177.344-.394.344H1.342L3.814 5.6c.1.087.138.214.102.333a.372.372 0 01-.278.243.433.433 0 01-.38-.089L.115 3.337A.324.324 0 010 3.094c0-.091.042-.179.115-.243L3.258.1a.434.434 0 01.556 0 .315.315 0 010 .487L1.342 2.75h9.264c.217 0 .393.154.393.344z"
+              fill="#00FAD9"
+              fill-rule="nonzero"
+            ></path>
+          </svg>
+          <div class="sc-eirqVv dSzotL">Switch</div>
+        </button>
+        <button
+          @click=${() => {
+            this._disconnect();
+          }}
+          type="button"
+          class="modal-button"
+        >
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              transform="translate(1)"
+              stroke="#FF5072"
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M3.315 4.023a9 9 0 1011.273-.078"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              ></path>
+              <rect x="8.9" y="0.5" width="1" height="9" rx="0.5"></rect>
+            </g>
+          </svg>
+          <div class="sc-lbVvki ghCdOs">Disconnect</div>
+        </button>
+      </div>
+    `;
+  }
+
   connectModal() {
     return html`
       <div class="connect-modal-header">
-        Connect Wallet
+        ${this.selectedAccount ? "Switch Account" : "Connect Wallet"}
       </div>
       <div class="connect-modal-content">
         <div class="terms-and-service-container">
@@ -2081,10 +2775,10 @@ export class Widget extends LitElement {
     `;
   }
 
-  modal({content}) {
+  modal({content, handle}) {
     return html`
       <div class="modal-wrapper">
-        <div class="modal-underlay" @click="${this._handleConnectModal}"></div>
+        <div class="modal-underlay" @click="${handle}"></div>
         <div class="modal-container">
           ${content}
         </div>
@@ -2282,6 +2976,74 @@ export class Widget extends LitElement {
     `;
   }
 
+  settings() {
+    return html`
+      <div>
+        ${this.secondaryScreenHeader({
+          label: 'Settings',
+        })}
+        <h3 class="setting-title">Slippage Tolerance</h3>
+        <div class="slippage-container">
+          <div
+            class="slippage-item ${this.slippage == 0.5
+              ? 'slippage-item-selected'
+              : ''}"
+            @click=${() => (this.slippage = 0.5)}
+          >
+            0.5%
+          </div>
+          <div
+            class="slippage-item ${this.slippage == 1
+              ? 'slippage-item-selected'
+              : ''}"
+            @click=${() => (this.slippage = 1)}
+          >
+            1%
+          </div>
+          <div
+            class="slippage-item ${this.slippage == 3
+              ? 'slippage-item-selected'
+              : ''}"
+            @click=${() => (this.slippage = 3)}
+          >
+            3%
+          </div>
+          <div class="slippage-input-container">
+            <input
+              type="number"
+              class="slippage-input  ${this.slippage !== 0.5 &&
+              this.slippage !== 1 &&
+              this.slippage !== 3
+                ? 'slippage-item-selected'
+                : ''}"
+              value=${this.slippage !== 0.5 &&
+              this.slippage !== 1 &&
+              this.slippage !== 3
+                ? this.slippage
+                : ''}
+              @input=${(e) => {
+                this.slippage = e.target.value;
+              }}
+            />
+            <div class="slippage-percent">%</div>
+          </div>
+        </div>
+        <h3 class="setting-title">Transaction Deadline</h3>
+        <div class="slippage-input-container">
+          <input
+            type="number"
+            class="slippage-input"
+            value=${this.deadline}
+            @input=${(e) => {
+              this.deadline = e.target.value;
+            }}
+          />
+          <div class="slippage-percent">min</div>
+        </div>
+      </div>
+    `;
+  }
+
   render() {
     if (!window.ethereum) return html`<div>Please install metamask</div>`;
 
@@ -2300,9 +3062,20 @@ export class Widget extends LitElement {
     if (this.currentScreen == 'selectReceive')
       return html`${this.selectCurrency({variant: 'receive'})}`;
 
+    if (this.currentScreen == 'settings') return html`${this.settings()}`;
+
     return html`
+      ${this.openAccountModal
+        ? this.modal({
+            content: this.accountModal(),
+            handle: this._handleAccountModal,
+          })
+        : null}
       ${this.openConnectModal
-        ? this.modal({content: this.connectModal()})
+        ? this.modal({
+            content: this.connectModal(),
+            handle: this._handleConnectModal,
+          })
         : null}
       ${this.header()} ${this.mainScreen()}
     `;
