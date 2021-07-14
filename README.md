@@ -26,7 +26,7 @@ Installing the component or importing it from a CDN
 ```
 And import it
 ```javascript
-    import 'some-package-name';
+    import 'dodoex-web-component';
 ```
 
 Or add this to main html page
