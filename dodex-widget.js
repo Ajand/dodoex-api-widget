@@ -81,6 +81,24 @@ const networkName = (chainId) => {
   }
 };
 
+const networkNameForAPI = (chaindId) =>{ 
+  switch (chainId) {
+    case 1:
+      return 'mainnet';
+    case 42:
+      return 'kovan';
+    case 128:
+      return 'heco';
+    case 56:
+      return 'bsc';
+    case 137:
+      return 'polygon';
+
+    default:
+      return 'mainnet';
+  }
+}
+
 const explorer = (chainId, address) => {
   switch (chainId) {
     case 1:
@@ -2272,13 +2290,10 @@ export class Widget extends LitElement {
       redirect: 'follow',
     };
 
+    
     fetch(
       `https://cdn-static.dodoex.io/erc-20-s?_limit=1000&chains.name=${
-        this.chainId == 1
-          ? 'mainnet'
-          : this.chainId == 56
-          ? 'bsc'
-          : networkName(this.chainId)
+        networkNameForAPI(this.chainId)
       }`,
       requestOptions
     )
