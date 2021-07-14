@@ -81,7 +81,7 @@ const networkName = (chainId) => {
   }
 };
 
-const networkNameForAPI = (chaindId) =>{ 
+const networkNameForAPI = (chainId) =>{ 
   switch (chainId) {
     case 1:
       return 'mainnet';
