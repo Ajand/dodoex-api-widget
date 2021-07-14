@@ -99,6 +99,23 @@ const explorer = (chainId, address) => {
   }
 };
 
+const dodoAddress = (chainId) => {
+  switch (chainId) {
+    case 1:
+      return `0xa356867fDCEa8e71AEaF87805808803806231FdC`;
+    case 42:
+      return `0x85CAA68ae47f047aa01C48BCaA711CA70a950fFb`;
+    case 128:
+      return `0xAc7cC7d2374492De2D1ce21e2FEcA26EB0d113e7`;
+    case 56:
+      return `0x8F8Dd7DB1bDA5eD3da8C9daf3bfa471c12d58486`;
+    case 137:
+      return `0xa222e6a71D1A1Dd5F279805fbe38d5329C1d0e70`;
+    default:
+      return `0xa356867fDCEa8e71AEaF87805808803806231FdC`;
+  }
+};
+
 const isReallyConnected = (chainId, accountAddress, connectionStatus) =>
   chainName(chainId) && accountAddress && connectionStatus == 'connected';
 
@@ -222,6 +239,479 @@ const erc20abi = [
     type: 'event',
   },
 ];
+const dodoAbi = [
+  {
+    inputs: [
+      {internalType: 'address', name: 'dvmFactory', type: 'address'},
+      {internalType: 'address', name: 'dppFactory', type: 'address'},
+      {internalType: 'address', name: 'cpFactory', type: 'address'},
+      {internalType: 'address payable', name: 'weth', type: 'address'},
+      {
+        internalType: 'address',
+        name: 'dodoApproveProxy',
+        type: 'address',
+      },
+      {internalType: 'address', name: 'dodoSellHelper', type: 'address'},
+      {internalType: 'address', name: 'chiToken', type: 'address'},
+      {internalType: 'address', name: 'dodoIncentive', type: 'address'},
+    ],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'fromToken',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'toToken',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'fromAmount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'returnAmount',
+        type: 'uint256',
+      },
+    ],
+    name: 'OrderHistory',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferPrepared',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {stateMutability: 'payable', type: 'fallback'},
+  {
+    inputs: [],
+    name: '_CHI_TOKEN_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_CP_FACTORY_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_DODO_APPROVE_PROXY_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_DODO_INCENTIVE_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_DODO_SELL_HELPER_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_DPP_FACTORY_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_DVM_FACTORY_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_GAS_DODO_MAX_RETURN_',
+    outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_GAS_EXTERNAL_RETURN_',
+    outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_NEW_OWNER_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_OWNER_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_WETH_',
+    outputs: [{internalType: 'address', name: '', type: 'address'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'dvmAddress', type: 'address'},
+      {internalType: 'uint256', name: 'baseInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'baseMinAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteMinAmount', type: 'uint256'},
+      {internalType: 'uint8', name: 'flag', type: 'uint8'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'addDVMLiquidity',
+    outputs: [
+      {internalType: 'uint256', name: 'shares', type: 'uint256'},
+      {
+        internalType: 'uint256',
+        name: 'baseAdjustedInAmount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'quoteAdjustedInAmount',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'pair', type: 'address'},
+      {internalType: 'uint256', name: 'baseAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'baseMinShares', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteMinShares', type: 'uint256'},
+      {internalType: 'uint8', name: 'flag', type: 'uint8'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'addLiquidityToV1',
+    outputs: [
+      {internalType: 'uint256', name: 'baseShares', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteShares', type: 'uint256'},
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{internalType: 'address', name: 'contractAddr', type: 'address'}],
+    name: 'addWhiteList',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'cpAddress', type: 'address'},
+      {internalType: 'uint256', name: 'quoteAmount', type: 'uint256'},
+      {internalType: 'uint8', name: 'flag', type: 'uint8'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'bid',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'claimOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'baseToken', type: 'address'},
+      {internalType: 'address', name: 'quoteToken', type: 'address'},
+      {internalType: 'uint256', name: 'baseInAmount', type: 'uint256'},
+      {internalType: 'uint256[]', name: 'timeLine', type: 'uint256[]'},
+      {internalType: 'uint256[]', name: 'valueList', type: 'uint256[]'},
+      {internalType: 'bool', name: 'isOpenTWAP', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'createCrowdPooling',
+    outputs: [
+      {
+        internalType: 'address payable',
+        name: 'newCrowdPooling',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'baseToken', type: 'address'},
+      {internalType: 'address', name: 'quoteToken', type: 'address'},
+      {internalType: 'uint256', name: 'baseInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'lpFeeRate', type: 'uint256'},
+      {internalType: 'uint256', name: 'i', type: 'uint256'},
+      {internalType: 'uint256', name: 'k', type: 'uint256'},
+      {internalType: 'bool', name: 'isOpenTwap', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'createDODOPrivatePool',
+    outputs: [
+      {internalType: 'address', name: 'newPrivatePool', type: 'address'},
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'baseToken', type: 'address'},
+      {internalType: 'address', name: 'quoteToken', type: 'address'},
+      {internalType: 'uint256', name: 'baseInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'quoteInAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'lpFeeRate', type: 'uint256'},
+      {internalType: 'uint256', name: 'i', type: 'uint256'},
+      {internalType: 'uint256', name: 'k', type: 'uint256'},
+      {internalType: 'bool', name: 'isOpenTWAP', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'createDODOVendingMachine',
+    outputs: [
+      {
+        internalType: 'address',
+        name: 'newVendingMachine',
+        type: 'address',
+      },
+      {internalType: 'uint256', name: 'shares', type: 'uint256'},
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'fromToken', type: 'address'},
+      {internalType: 'address', name: 'toToken', type: 'address'},
+      {internalType: 'uint256', name: 'fromTokenAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'address[]', name: 'dodoPairs', type: 'address[]'},
+      {internalType: 'uint256', name: 'directions', type: 'uint256'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'dodoSwapV1',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'toToken', type: 'address'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'address[]', name: 'dodoPairs', type: 'address[]'},
+      {internalType: 'uint256', name: 'directions', type: 'uint256'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'dodoSwapV2ETHToToken',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'fromToken', type: 'address'},
+      {internalType: 'uint256', name: 'fromTokenAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'address[]', name: 'dodoPairs', type: 'address[]'},
+      {internalType: 'uint256', name: 'directions', type: 'uint256'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'dodoSwapV2TokenToETH',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'fromToken', type: 'address'},
+      {internalType: 'address', name: 'toToken', type: 'address'},
+      {internalType: 'uint256', name: 'fromTokenAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'address[]', name: 'dodoPairs', type: 'address[]'},
+      {internalType: 'uint256', name: 'directions', type: 'uint256'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'dodoSwapV2TokenToToken',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'fromToken', type: 'address'},
+      {internalType: 'address', name: 'toToken', type: 'address'},
+      {internalType: 'address', name: 'approveTarget', type: 'address'},
+      {internalType: 'address', name: 'swapTarget', type: 'address'},
+      {internalType: 'uint256', name: 'fromTokenAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'bytes', name: 'callDataConcat', type: 'bytes'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'externalSwap',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{internalType: 'address', name: 'newOwner', type: 'address'}],
+    name: 'initOwner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{internalType: 'address', name: '', type: 'address'}],
+    name: 'isWhiteListed',
+    outputs: [{internalType: 'bool', name: '', type: 'bool'}],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'fromToken', type: 'address'},
+      {internalType: 'address', name: 'toToken', type: 'address'},
+      {internalType: 'uint256', name: 'fromTokenAmount', type: 'uint256'},
+      {internalType: 'uint256', name: 'minReturnAmount', type: 'uint256'},
+      {internalType: 'address[]', name: 'mixAdapters', type: 'address[]'},
+      {internalType: 'address[]', name: 'mixPairs', type: 'address[]'},
+      {internalType: 'address[]', name: 'assetTo', type: 'address[]'},
+      {internalType: 'uint256', name: 'directions', type: 'uint256'},
+      {internalType: 'bool', name: 'isIncentive', type: 'bool'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'mixSwap',
+    outputs: [{internalType: 'uint256', name: 'returnAmount', type: 'uint256'}],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{internalType: 'address', name: 'contractAddr', type: 'address'}],
+    name: 'removeWhiteList',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {internalType: 'address', name: 'dppAddress', type: 'address'},
+      {internalType: 'uint256[]', name: 'paramList', type: 'uint256[]'},
+      {internalType: 'uint256[]', name: 'amountList', type: 'uint256[]'},
+      {internalType: 'uint8', name: 'flag', type: 'uint8'},
+      {internalType: 'uint256', name: 'minBaseReserve', type: 'uint256'},
+      {internalType: 'uint256', name: 'minQuoteReserve', type: 'uint256'},
+      {internalType: 'uint256', name: 'deadLine', type: 'uint256'},
+    ],
+    name: 'resetDODOPrivatePool',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{internalType: 'address', name: 'newOwner', type: 'address'}],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'newDodoGasReturn',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'newExternalGasReturn',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateGasReturn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {stateMutability: 'payable', type: 'receive'},
+];
 
 const getRPC = (that) => {
   switch (that.chainId) {
@@ -255,7 +745,6 @@ export class Widget extends LitElement {
       :host {
         display: block;
         padding: 20px;
-        max-width: 800px;
         background-color: var(--dodoBackground);
         color: var(--dodoText);
         font-family: var(--dodoFontFamily) !important;
@@ -309,9 +798,9 @@ export class Widget extends LitElement {
         -webkit-box-pack: center;
         justify-content: center;
         margin-left: 4px;
-        background-color: rgb(38, 39, 41);
-        background: rgb(38, 39, 41);
-        color: rgb(255, 255, 255);
+        background-color: var(--dodoHelperBackground);
+        background: var(--dodoHelperBackground);
+        color: var(--dodoText);
         font-size: 14px;
         border-radius: 10px;
         white-space: nowrap;
@@ -327,7 +816,7 @@ export class Widget extends LitElement {
       .icon-button:hover {
         border: none;
         outline: 0px;
-        background: rgb(64, 62, 37);
+        background: var(--dodoPrimaryDark);
         color: rgb(255, 232, 4);
         fill: var(--dodoPrimary) !important;
       }
@@ -1268,6 +1757,102 @@ export class Widget extends LitElement {
         margin-left: 20px;
       }
 
+      .approve-container {
+        width: 60px;
+        height: 80%;
+        margin-left: 10px;
+        padding: 0px 15px;
+        border-radius: 5px;
+        background: var(--dodoHelperBackground);
+        cursor: pointer;
+      }
+
+      .approve-container:hover {
+        background: var(--dodoPrimaryDark);
+      }
+
+      .approve-icon {
+        width: 100%;
+        height: 100%;
+        fill: var(--dodoText);
+      }
+
+      .approve-container:hover > svg {
+        fill: var(--dodoPrimary) !important;
+      }
+
+      .additional-divider {
+        width: 100%;
+        height: 1px;
+        background: var(--dodoHelperLightBackground);
+        margin: 10px 0px;
+      }
+
+      .additional-info-row {
+        height: 18px;
+        font-size: 12px;
+        display: flex;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 100%;
+        font-weight: 400;
+      }
+
+      .additional-info-key {
+        flex: 1 1 0%;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        color: rgb(133, 133, 141);
+      }
+
+      .additional-tool-tip {
+        margin: 0 6px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .addtional-info-value {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+      }
+
+      .setting-gas-price-container {
+        display: flex;
+        align-items: flex-start;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .setting-gas-price-item {
+        user-select: none;
+        border-radius: 12px;
+        height: 36px;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 10px;
+        padding: 0px 16px;
+        margin-bottom: 10px;
+        min-width: 60px;
+        background-color: var(--dodoSecondaryBackground);
+        color: var(--dodoText);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+      }
+
+      .setting-gas-price-item-selected {
+        background-color: var(--dodoPrimary);
+        color: var(--dodoSecondaryBackground);
+      }
+
       @media screen and (max-width: 767px) {
         .modal-container {
           width: 91vw !important;
@@ -1355,6 +1940,12 @@ export class Widget extends LitElement {
       receiveBalance: {type: Number},
       dodoPrice: {type: Number},
       ethPrice: {type: Number},
+      routeLoading: {type: Boolean},
+      isAllowed: {type: Boolean},
+      gasPrice: {type: Object},
+      gasPriceSelected: {type: Number},
+      lastAmountChange: {type: Object},
+      disabledApprove: {type: Boolean},
     };
   }
 
@@ -1363,31 +1954,31 @@ export class Widget extends LitElement {
       if (ethereum.isConnected()) {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
-        this.web3 = new Web3(getRPC(this));
+        this.web3 = new Web3(window.web3.currentProvider);
       }
 
       ethereum.on('connect', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
-        this.web3 = new Web3(getRPC(this));
+        this.web3 = new Web3(window.web3.currentProvider);
       });
       ethereum.on('accountsChanged', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
-        this.web3 = new Web3(getRPC(this));
+        this.web3 = new Web3(window.web3.currentProvider);
 
         window.location.reload();
       });
       ethereum.on('chainChanged', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
-        this.web3 = new Web3(getRPC(this));
+        this.web3 = new Web3(window.web3.currentProvider);
         window.location.reload();
       });
       ethereum.on('disconnect', (info) => {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
-        this.web3 = new Web3(getRPC(this));
+        this.web3 = new Web3(window.web3.currentProvider);
 
         window.location.reload();
       });
@@ -1414,6 +2005,10 @@ export class Widget extends LitElement {
     this.slippage = 3;
     this.deadline = 20;
     this.helperMessage = '';
+    this.routeLoading = false;
+    this.isAllowed = false;
+    this.gasPriceSelected = 0;
+    this.disabledApprove = false;
 
     if (!Web3 && !window.Web3) {
       throw new Error(
@@ -1424,6 +2019,7 @@ export class Widget extends LitElement {
     this.addEventListener('pair-changed', () => {
       this._findCurrentPrice();
       this._findBalance();
+      this.isAllowed = false;
     });
 
     this.addEventListener('calc-backup-price', () => {
@@ -1446,11 +2042,33 @@ export class Widget extends LitElement {
 
     setInterval(() => {
       if (this.pay && this.receive) {
-        console.log('automated refresh');
         this._findCurrentPrice(true);
         this._findBalance();
       }
     }, 30 * 1000);
+
+    this._findGasPrice();
+
+    setInterval(() => {
+      this._findGasPrice();
+    }, 30 * 1000);
+  }
+
+  _findGasPrice() {
+    var myHeaders = new Headers();
+    myHeaders.append('Cookie', 'csrfToken=QM1UDG5MUUu1T_XN_b3PZjRs');
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch('https://www.gasnow.org/api/v3/gas/price', requestOptions)
+      .then((response) => response.text())
+      .then((result) => JSON.parse(result).data)
+      .then((prices) => (this.gasPrice = prices))
+      .catch((error) => console.log('error', error));
   }
 
   _findBalance() {
@@ -1564,7 +2182,7 @@ export class Widget extends LitElement {
         }
       })
       .then((lastItem) => {
-        if(lastItem) {
+        if (lastItem) {
           this.price = lastItem[1];
         }
       })
@@ -1573,11 +2191,14 @@ export class Widget extends LitElement {
 
   _findRoute() {
     this.route = undefined;
+    this.routeLoading = true;
 
     var requestOptions = {
       method: 'GET',
       redirect: 'follow',
     };
+
+    const currentReqDate = new Date();
 
     fetch(
       `https://dodo-route.dodoex.io/dodoapi/getdodoroute?fromTokenAddress=${
@@ -1597,8 +2218,45 @@ export class Widget extends LitElement {
         if (res.status == 200) return res.data;
         throw new Error(res.data);
       })
-      .then((route) => (this.route = route))
-      .catch((error) => console.log('error', error));
+      .then((route) => {
+        if (this.lastAmountChange.getTime() <= currentReqDate.getTime()) {
+          this.route = route;
+          this.routeLoading = false;
+        }
+      })
+      .catch((error) => {
+        console.log('error', error);
+        this.routeLoading = false;
+      });
+  }
+
+  _swap() {
+    const contract = new this.web3.eth.Contract(
+      dodoAbi,
+      dodoAddress(this.chainId)
+    );
+    return contract.methods
+      .externalSwap(
+        this.pay.address,
+        this.receive.address,
+        this.route.targetApproveAddr,
+        this.route.to,
+        this.payAmount,
+        this.price *
+          this.payAmount *
+          ((100 - this.slippage) / 100) ** this.receive.decimals,
+        this.route.data,
+        true,
+        new Date(new Date.getTime() + this.deadline * 60000)
+      )
+      .send({
+        from: this.selectedAccount,
+        value: this.pay.symbol === 'ETH' ? this.payAmount : 0,
+      })
+      .then((r) => {
+        console.log('swapped transaction sented');
+      })
+      .catch((err) => console.log(err));
   }
 
   connectedCallback() {
@@ -1616,7 +2274,11 @@ export class Widget extends LitElement {
 
     fetch(
       `https://cdn-static.dodoex.io/erc-20-s?_limit=1000&chains.name=${
-        this.chainId == 1 ? 'mainnet' : networkName(this.chainId)
+        this.chainId == 1
+          ? 'mainnet'
+          : this.chainId == 56
+          ? 'bsc'
+          : networkName(this.chainId)
       }`,
       requestOptions
     )
@@ -1658,9 +2320,8 @@ export class Widget extends LitElement {
   _disconnect() {
     localStorage.setItem('cstatus', 'disconnect');
     this.connectionStatus = 'disconnect';
-    this.accountModal = false 
+    this.accountModal = false;
     window.location.reload();
-
   }
 
   refreshButtonIcon() {
@@ -1674,6 +2335,18 @@ export class Widget extends LitElement {
         d="M384,352l96-109.3h-66.1C407.1,141.8,325,64,223.2,64C117.8,64,32,150.1,32,256s85.8,192,191.2,192  c43.1,0,83.8-14.1,117.7-40.7l7.5-5.9l-43.2-46.2l-6.2,4.6c-22.1,16.3-48.3,24.9-75.8,24.9C152.6,384.7,95.1,327,95.1,256  c0-71,57.5-128.7,128.1-128.7c66.4,0,120.7,50,127.4,115.3h-74.1L384,352z"
       />
     </svg>`;
+  }
+
+  _approve() {
+    const contract = new this.web3.eth.Contract(erc20abi, this.pay.address);
+    return contract.methods
+      .approve(this.route.targetApproveAddr, this.payAmount)
+      .send({from: this.selectedAccount})
+      .then((r) => {
+        console.log('approve transaction sented');
+        this.disabledApprove = true;
+      })
+      .catch((err) => console.log(err));
   }
 
   shareButtonIcon() {
@@ -1776,6 +2449,17 @@ export class Widget extends LitElement {
         ${icon}
       </button>
     `;
+  }
+
+  checkAllowance(spender) {
+    const contract = new this.web3.eth.Contract(erc20abi, this.pay.address);
+    return contract.methods
+      .allowance(this.selectedAccount, spender)
+      .call()
+      .then((allowance) => {
+        return allowance;
+      })
+      .catch((err) => console.log(err));
   }
 
   button({label, click, disabled = false}) {
@@ -1887,8 +2571,10 @@ export class Widget extends LitElement {
           </div>
           <input
             @input=${(e) => {
+              const b = new Date();
               if (label == 'Pay') {
                 this.payAmount = e.target.value;
+                this.lastAmountChange = b;
                 if (
                   e.target.value != '' &&
                   isReallyConnected(
@@ -1912,6 +2598,28 @@ export class Widget extends LitElement {
             class="field-input"
             placeholder="0"
           />
+          ${label === 'Pay' && this.route && this.route.targetApproveAddr
+            ? html`<div class="approve-container" @click=${this._approve}>
+                <svg
+                  id="Capa_1"
+                  enable-background="new 0 0 511.753 511.753"
+                  class="approve-icon"
+                  height="512"
+                  viewBox="0 0 511.753 511.753"
+                  width="512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <path
+                      d="m398.375 299.07v-29.89c0-19.279-12.008-35.796-28.933-42.495v-75.287c0-83.48-67.917-151.398-151.399-151.398s-151.4 67.918-151.4 151.399v75.287c-16.925 6.699-28.933 23.215-28.933 42.495v196.88c0 25.195 20.498 45.692 45.692 45.692h281.697c60.072 0 108.943-48.872 108.943-108.943.001-48.471-31.82-89.642-75.667-103.74zm-33.276-5.203c-59.996 0-108.817 48.749-108.94 108.716h-188.449v-133.403c0-8.653 7.04-15.692 15.692-15.692h269.28c8.653 0 15.692 7.04 15.692 15.692v24.74c-1.087-.032-2.179-.053-3.275-.053zm-85.657-70.379h-122.799v-72.089c0-33.855 27.543-61.399 61.399-61.399 33.855 0 61.399 27.543 61.399 61.399v72.089zm-61.399-193.488c66.94 0 121.399 54.459 121.399 121.399v72.089h-30v-72.089c0-50.397-41.001-91.399-91.399-91.399s-91.399 41.001-91.399 91.399v72.089h-30v-72.089c-.001-66.94 54.459-121.399 121.399-121.399zm-134.64 451.753c-8.653 0-15.692-7.04-15.692-15.692v-33.478h192.581c5.407 19.008 15.859 35.912 29.807 49.17zm281.696 0c-43.529 0-78.943-35.414-78.943-78.943s35.414-78.943 78.943-78.943 78.943 35.414 78.943 78.943-35.413 78.943-78.943 78.943z"
+                    />
+                    <path
+                      d="m396.861 361.065c-7.175-4.144-16.349-1.685-20.49 5.49l-20.212 35.009-2.331-4.037c-4.142-7.174-13.314-9.632-20.49-5.49-7.174 4.142-9.632 13.315-5.49 20.49l15.321 26.537c2.679 4.641 7.631 7.5 12.99 7.5s10.311-2.859 12.99-7.5l33.203-57.509c4.141-7.174 1.683-16.348-5.491-20.49z"
+                    />
+                  </g>
+                </svg>
+              </div>`
+            : ''}
         </div>
       </div>
     `;
@@ -1960,8 +2668,116 @@ export class Widget extends LitElement {
       : html`<div>Loading ...</div>`;
   }
 
+  isConfirmable() {
+    if (
+      this.selectedAccount &&
+      this.payAmount &&
+      this.payAmount > this.payBalance &&
+      this.route &&
+      this.isAllowed
+    )
+      return true;
+    return false;
+  }
+
   helperMessageShower() {
-    return html`${this.helperMessage}`;
+    if (!this.selectedAccount) return '';
+
+    if (!this.payAmount)
+      return html`<div class="helper-message-container">
+        Enter an amount to see more trading details.
+      </div>`;
+    if (this.payAmount && this.payBalance === undefined)
+      return html`<div class="helper-message-container">Loading balances</div>`;
+    // if (this.payAmount > this.payBalance)
+    //   return html`<div class="helper-message-container">
+    //     Insufficient balance
+    //   </div>`;
+    if (this.routeLoading)
+      return html`<div class="helper-message-container">
+        Finding a trading route ...
+      </div>`;
+    if (!this.route)
+      return html`<div class="helper-message-container">No route found!</div>`;
+
+    if (this.route.targetApproveAddr) {
+      this.checkAllowance(this.route.targetApproveAddr)
+        .then((allowance) => {
+          this.isAllowed = allowance >= this.payAmount * this.pay.decimals;
+        })
+        .catch((err) => console.log(err));
+      return html`<div class="helper-message-container">
+        First need to approve spending.
+      </div>`;
+    }
+
+    return '';
+  }
+
+  additionalInfo() {
+    if (!this.payAmount) return '';
+    return html`
+      <div class="additional-divider"></div>
+      <div class="additional-info-row">
+        <div class="additional-info-key">
+          Slippage Tolerance:
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            size="12"
+            class="additional-tool-tip"
+            height="12"
+            width="12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+              clip-rule="evenodd"
+            ></path>
+            <path
+              d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"
+            ></path>
+          </svg>
+        </div>
+        <div class="additional-info-value">
+          ${this.slippage}%
+        </div>
+      </div>
+      <div class="additional-info-row">
+        <div class="additional-info-key">
+          Minimum Received:
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            size="12"
+            class="additional-tool-tip"
+            height="12"
+            width="12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+              clip-rule="evenodd"
+            ></path>
+            <path
+              d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"
+            ></path>
+          </svg>
+        </div>
+        <div class="additional-info-value">
+          ${formatRatio(
+            this.price * this.payAmount * ((100 - this.slippage) / 100)
+          )}
+          ${this.receive.symbol}
+        </div>
+      </div>
+    `;
   }
 
   mainScreen() {
@@ -1978,7 +2794,7 @@ export class Widget extends LitElement {
               this.pay.address +
               '/logo.png',
           secondary:
-            this.connectionStatus === 'disconnect'
+            this.connectionStatus === 'disconnect' || !this.payBalance
               ? ''
               : this.available({
                   base: true,
@@ -2001,7 +2817,7 @@ export class Widget extends LitElement {
               this.receive.address +
               '/logo.png',
           secondary:
-            this.connectionStatus === 'disconnect'
+            this.connectionStatus === 'disconnect' || !this.receiveBalance
               ? ''
               : this.available({
                   base: true,
@@ -2017,12 +2833,7 @@ export class Widget extends LitElement {
           ratio: String(this.price),
         })}
       </div>
-      ${this.helperMessage
-        ? html`<div class="helper-message-container">
-            ${this.helperMessageShower()}
-          </div>`
-        : ''}
-
+      ${this.helperMessageShower()}
       <div>
         ${isReallyConnected(
           this.chainId,
@@ -2031,8 +2842,8 @@ export class Widget extends LitElement {
         )
           ? this.button({
               label: 'Confirm Order',
-              click: this._handleConnectModal,
-              disabled: this.route ? false : true,
+              click: this._swap,
+              disabled: !this.isConfirmable(),
             })
           : this.button({
               label: 'Connect Wallet',
@@ -2040,6 +2851,7 @@ export class Widget extends LitElement {
               disabled: false,
             })}
       </div>
+      ${this.additionalInfo()}
     `;
   }
 
@@ -2178,7 +2990,15 @@ export class Widget extends LitElement {
           <img src="${image}" alt="logo" />
         </div>
         ${label} ${selected ? this.selectedIcon() : null}
-        ${ethereum ? this.ethereumLink() : null}
+        ${this.chainId
+          ? (chainName(this.chainId) == 'Ethereum' ||
+              chainName(this.chainId) == 'Kovan') &&
+            label == 'Ethereum'
+            ? this.ethereumLink()
+            : label == chainName(this.chainId)
+            ? this.ethereumLink()
+            : ''
+          : this.ethereumLink()}
       </button>
     `;
   }
@@ -2580,9 +3400,7 @@ export class Widget extends LitElement {
   selectWalletButton({label, icon, click}) {
     return html`<div class="select-wallet-button-wrapper">
       <button
-        ?disabled=${!this.acceptTermsAndService ||
-        this.connectionStatus !== 'disconnect' ||
-        label != 'MetaMask'}
+        ?disabled=${!this.acceptTermsAndService || label != 'MetaMask'}
         type="button"
         class="select-wallet-button"
         @click=${click}
@@ -2705,7 +3523,7 @@ export class Widget extends LitElement {
   connectModal() {
     return html`
       <div class="connect-modal-header">
-        ${this.selectedAccount ? "Switch Account" : "Connect Wallet"}
+        ${this.selectedAccount ? 'Switch Account' : 'Connect Wallet'}
       </div>
       <div class="connect-modal-content">
         <div class="terms-and-service-container">
@@ -3039,6 +3857,39 @@ export class Widget extends LitElement {
             }}
           />
           <div class="slippage-percent">min</div>
+        </div>
+        <h3 class="setting-title">Gas Price</h3>
+        <div class="setting-gas-price-container">
+          <div
+            @click=${() => {
+              this.gasPriceSelected = 0;
+            }}
+            class="setting-gas-price-item  ${this.gasPriceSelected === 0
+              ? 'setting-gas-price-item-selected'
+              : ''}"
+          >
+            Rapid (${this.gasPrice.rapid / 10 ** 9} gwei) ～15s
+          </div>
+          <div
+            @click=${() => {
+              this.gasPriceSelected = 1;
+            }}
+            class="setting-gas-price-item ${this.gasPriceSelected === 1
+              ? 'setting-gas-price-item-selected'
+              : ''}"
+          >
+            Fast (${this.gasPrice.fast / 10 ** 9} gwei) ～1min
+          </div>
+          <div
+            @click=${() => {
+              this.gasPriceSelected = 2;
+            }}
+            class="setting-gas-price-item  ${this.gasPriceSelected === 2
+              ? 'setting-gas-price-item-selected'
+              : ''}"
+          >
+            Medium (${this.gasPrice.standard / 10 ** 9} gwei) ～3min
+          </div>
         </div>
       </div>
     `;
