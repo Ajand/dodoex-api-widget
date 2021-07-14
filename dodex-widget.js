@@ -1969,11 +1969,18 @@ export class Widget extends LitElement {
 
   metamaskHandler() {
     if (window.ethereum) {
-      if (ethereum.isConnected()) {
+      
+      if (window.ethereum.isConnected()) {
         this.chainId = toInt(ethereum.chainId);
         this.selectedAccount = ethereum.selectedAddress;
         this.web3 = new Web3(window.web3.currentProvider);
       }
+      setTimeout(() => {
+        this.chainId = toInt(ethereum.chainId);
+        this.selectedAccount = ethereum.selectedAddress;
+        this.web3 = new Web3(window.web3.currentProvider);
+
+      }, 500)
 
       ethereum.on('connect', (info) => {
         this.chainId = toInt(ethereum.chainId);
