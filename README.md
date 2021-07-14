@@ -24,6 +24,11 @@ Installing the component or importing it from a CDN
 ```
     npm install --save dodoex-web-component
 ```
+And import it
+```javascript
+    import 'some-package-name';
+```
+
 Or add this to main html page
 ```html
     <script src="https://unpkg.com/dodoex-web-component@0.1.0/dodex-widget.bundled.js" crossorigin="anonymous"
